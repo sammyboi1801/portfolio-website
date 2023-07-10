@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <meta charset="UTF-8">
+    <title>samselva</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <style>
+        html {
+          scroll-behavior: smooth;
+        }
+        body {
+            background: #161616;
+            background-image: radial-gradient(#3d3d3d 4%, transparent 0);
+            background-size: 25px 25px;
+            background-position: -19px -19px;
+            font-family: "Outfit", serif;
+            
+        }
+        #header1 {
+          font-family: "Outfit", serif;
+          color: #9a9a9a;
+        }
+        .line{
+          margin: 0px 100px 0px 100px;
+          border: 1px solid #4a4a4a;
+        }
+        .t{
+          font-size: 14px;
+          font-family: "Outfit", serif;
+          color: #9a9a9a;
+        }
+        .main-title{
+          font-size: 56px;
+          font-family: "Outfit", serif;
+          color: #9a9a9a;
+        }
+        #spin {
+          color: #9a9a9a;
+        }
+        #spin:after {
+          content:"";
+          animation: spin 10s linear infinite;
+        }
+        @keyframes spin {
+          0% { content: "-@$%*(% &%()@!#_"}
+          3% { content: "M&%()@ne L@$%*(%g"}
+          5% { content: "M@c!ine L+am*nng"}
+          7% { content: "Macuine Leamnnng"}
+          10% { content:"Machine Learning🤖";}
+          35% { content:"Machine Learning"🤖;}
+          36% { content: "-@$%*(% &%()@!#_"}
+          37% { content: "Nec!ile N+at*nns"}
+          40% { content: "NeUr#R N+tnorg"}
+          42% { content: "Neur#R NeTnork$"}
+          45% { content:"Neural Networks🧠"}
+          70% { content:"Neural Networks🧠"}
+          71% { content: "-@$ &%()@!#_"}
+          72% { content:"W@b T@ch0rl0Gy"}
+          75% { content:"W%b T@chn0l*ky"}
+          77% { content:"Web t@Dhn0l*py"}
+          80% { content: "Web Technology🕸️"; }
+          100% { content: "Web Technology🕸️"; }
+        }
+        #main-image{
+          
+          height: 110px;
+          border-radius: 50%;
+        }
+        #main-image:hover{
+          background: url("mypicture.jpg") no-repeat;
+        }
+        
+        .svg1:hover{
+          -webkit-filter: drop-shadow( 0px 0px 1px #9a9a9a);
+          filter: drop-shadow( 0px 0px 2px #9a9a9a);
+        }
+        .side-title{
+          padding-left: 10px;
+          font-size: 12px;
+          font-family: "Outfit", serif;
+          color: #9a9a9a;
+        }
+        .experience-title{
+          font-size: 40px;
+          font-family: "Outfit", serif;
+          color: #9a9a9a;
+        }
+
+/* CSS */
+      .projects-button {
+        font-family: "Outfit", sans-serif;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #9a9a9a;
+        cursor: pointer;
+        border: 3px solid;
+        padding: 1em 0.5em;
+        box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+        position: relative;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .projects-button:active {
+        box-shadow: 0px 0px 0px 0px;
+        top: 5px;
+        left: 5px;
+      }
+
+      @media (min-width: 768px) {
+        .projects-button {
+          padding: 0.25em 0.75em;
+        }
+      }
+      .email-cv{
+        background-color: #1a1a1a;
+        padding: 3%;
+      }
+      .exp-cards{
+        background-color: #1a1a1a;
+        border: 1px solid #2d2d2d;
+        border-radius: 1px;
+        box-shadow: 1px 1px 20px #000;
+      }
+      .contact-box{
+        box-shadow: 1px 1px 20px #000;
+      }
+      .project-card{
+        box-shadow: 1px 1px 20px #000;
+      }
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+      }
+
+      /* Tooltip text */
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 250px;
+        bottom: 70%;
+        left: 50%;
+        margin-left: -20px;
+        background-color: #9a9a9a;
+        color: #1a1a1a;
+        text-align: center;
+        padding: 1px 0;
+        /* border-radius: 6px; */
+      
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+      }
+
+      /* Show the tooltip text when you mouse over the tooltip container */
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        
+      }
+        /* .image {
+          margin-left: 45%;
+          margin-right: 45%;
+          height: 110px;
+          border-radius: 100%;
+          background-image: url('mypicture2.jpg');
+        }
+        .image:hover {
+          background: url('mypicture.jpg');
+        } */
+    </style>
+</head>
+<body>
+
+    <header class="body-color body-font">
+        <div class="container mx-auto flex flex-wrap p-5 px-40 flex-col md:flex-row items-center" id="header1">
+          <a class="flex title-font font-medium items-center text-gray-400 mb-4 md:mb-0">
+            
+            <svg class="svg1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64px" height="64px" viewBox="-14.4 -14.4 64.80 64.80" enable-background="new 0 0 36 32" xml:space="preserve" fill="#9a9a9a" stroke="#9a9a9a" stroke-width="1.0080000000000002"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><rect x="-14.4" y="-14.4" width="64.80" height="64.80" rx="32.4" fill="#1a1a1a" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.36"></g><g id="SVGRepo_iconCarrier"> <g> <path fill="#9a9a9a" d="M14.191,16.087c-0.195-0.195-0.512-0.195-0.707,0l-3.517,3.516c-0.094,0.094-0.146,0.221-0.146,0.354 s0.053,0.26,0.146,0.354l3.517,3.517c0.098,0.098,0.226,0.146,0.354,0.146s0.256-0.049,0.354-0.146 c0.195-0.195,0.195-0.512,0-0.707l-3.163-3.163l3.163-3.163C14.386,16.599,14.386,16.283,14.191,16.087z"></path> <path fill="#9a9a9a" d="M19.857,23.827c0.098,0.098,0.226,0.146,0.354,0.146s0.256-0.049,0.354-0.146l3.516-3.517 c0.195-0.195,0.195-0.512,0-0.707l-3.516-3.516c-0.195-0.195-0.512-0.195-0.707,0s-0.195,0.512,0,0.707l3.163,3.163l-3.163,3.163 C19.662,23.315,19.662,23.632,19.857,23.827z"></path> <path fill="#9a9a9a" d="M17.383,16.325l-1.671,7.033c-0.064,0.269,0.102,0.539,0.371,0.602c0.039,0.009,0.078,0.014,0.116,0.014 c0.226,0,0.431-0.155,0.486-0.384l1.671-7.033c0.064-0.269-0.102-0.539-0.371-0.602C17.718,15.892,17.448,16.057,17.383,16.325z"></path> <path fill="#9a9a9a" d="M0,30.5C0,31.327,0.673,32,1.5,32h33c0.827,0,1.5-0.673,1.5-1.5v-18c0-0.276-0.224-0.5-0.5-0.5 S35,12.224,35,12.5v18c0,0.276-0.224,0.5-0.5,0.5h-33C1.224,31,1,30.776,1,30.5v-18C1,12.224,0.776,12,0.5,12S0,12.224,0,12.5V30.5 z"></path> <path fill="#9a9a9a" d="M34.5,0h-33C0.673,0,0,0.673,0,1.5v8C0,10.327,0.673,11,1.5,11h33c0.827,0,1.5-0.673,1.5-1.5v-8 C36,0.673,35.327,0,34.5,0z M35,9.5c0,0.276-0.224,0.5-0.5,0.5h-33C1.224,10,1,9.776,1,9.5v-8C1,1.224,1.224,1,1.5,1h33 C34.776,1,35,1.224,35,1.5V9.5z"></path> <circle fill="#9a9a9a" cx="4" cy="5.5" r="1"></circle> <circle fill="#9a9a9a" cx="7" cy="5.5" r="1"></circle> <circle fill="#9a9a9a" cx="10" cy="5.5" r="1"></circle> </g> </g></svg>
+            <span class="side-title">COGITO, ERGO SUM</span>
+
+          </a>
+          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://www.linkedin.com/in/sammyboi1801/" target="_blank">Linkedin</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://github.com/sammyboi1801" target="_blank">Github</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://leetcode.com/Sam18012002/" target="_blank">Leetcode</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="#cv">CV</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="#contact">Contact</a>
+            <!-- <a class="text-sm mr-5 hover:text-gray-300" href="#contact">CV</a> -->
+          </nav>
+          <!-- <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button> -->
+        </div>
+      </header>
+
+      <hr class="line">
+      
+
+      <div class="p-20 flex flex-col items-center">
+        
+        <!-- <img class="text-center" id="main-image" src="main1.svg" alt=""> -->
+        <!-- <div class="image"></div> -->
+        <img class="my-5" style="display: block; margin-left: auto; margin-right: auto;" id="main-image" src="{% static 'mypicture2.jpg' %}" alt="">
+        <p class="py-5 text-center t">Hi, I am Sam!😊 </p>
+        <p class="text-center main-title">Working on <br><span id="spin"></span></p>
+        <audio id="sound1" src="{% static 'click.mp3' %}" preload="auto"></audio>
+        <a onclick="document.getElementById('sound1').play();" class="projects-button my-10" href="#projects-section">Check out my projects</a>
+        <a href="#experience-section">
+          <svg fill="#9a9a9a" width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#9a9a9a" stroke-width="0.00032"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.8559999999999999"></g><g id="SVGRepo_iconCarrier"> <title>down</title> <path d="M11.125 16.313l7.688-7.688 3.594 3.719-11.094 11.063-11.313-11.313 3.5-3.531z"></path> </g></svg>
+        </a>
+      </div>
+
+
+      <section id="experience-section" class="py-10 text-gray-600 body-font flex flex-col items-center">
+
+        <h3 class="experience-title"> My Work Experience</h3>
+
+        <div class="container px-32 py-20 mx-auto">
+          
+          <div class="flex flex-wrap -m-4">
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+              <div class="exp-cards p-6">
+                <!-- <img class="h-40 w-full object-cover object-center mb-6" src="https://dummyimage.com/720x400" alt="content"> -->
+                <svg class="mt-10" width="50px" height="50px" viewBox="0 0 1024 1024" fill="#9a9a9a" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#9a9a9a"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="2.048"></g><g id="SVGRepo_iconCarrier"><path d="M1015.848 687.82H8.156a7.992 7.992 0 0 1-7.998-7.996 7.994 7.994 0 0 1 7.998-7.998h1007.692a7.992 7.992 0 0 1 7.996 7.998 7.992 7.992 0 0 1-7.996 7.996zM512 767.766c-17.636 0-31.99-14.34-31.99-31.99s14.354-31.99 31.99-31.99 31.992 14.34 31.992 31.99-14.356 31.99-31.992 31.99z m0-47.984c-8.826 0-15.996 7.184-15.996 15.994s7.17 15.994 15.996 15.994c8.824 0 15.996-7.184 15.996-15.994s-7.172-15.994-15.996-15.994zM376.136 975.732a8.01 8.01 0 0 1-7.81-9.73l31.99-143.956c0.954-4.296 5.202-6.984 9.544-6.078a8.014 8.014 0 0 1 6.078 9.544l-31.99 143.956a8.004 8.004 0 0 1-7.812 6.264zM647.864 975.732a8 8 0 0 1-7.808-6.264l-31.988-143.956a8.01 8.01 0 0 1 6.074-9.544c4.376-0.906 8.59 1.782 9.542 6.078l31.992 143.956a8.008 8.008 0 0 1-7.812 9.73z" fill=""></path><path d="M671.954 975.732H352.05a7.992 7.992 0 0 1-7.998-7.998 7.992 7.992 0 0 1 7.998-7.996h319.904a7.992 7.992 0 0 1 7.996 7.996 7.992 7.992 0 0 1-7.996 7.998zM967.86 640.086H56.14a7.994 7.994 0 0 1-7.998-7.998V104.25a7.994 7.994 0 0 1 7.998-7.998h911.72c4.422 0 8 3.578 8 7.998v527.838a7.994 7.994 0 0 1-8 7.998z m-903.722-15.996h895.726V112.248H64.138v511.842z" fill=""></path><path d="M967.86 800.038H56.14c-30.866 0-55.982-25.118-55.982-55.982V104.25c0-30.866 25.118-55.982 55.982-55.982h911.72c30.868 0 55.984 25.118 55.984 55.982v639.804c0 30.866-25.118 55.984-55.984 55.984zM56.14 64.262c-22.056 0-39.988 17.94-39.988 39.988v639.804c0 22.054 17.932 39.986 39.988 39.986h911.72c22.058 0 39.988-17.932 39.988-39.986V104.25c0-22.048-17.93-39.988-39.988-39.988H56.14z" fill=""></path><path d="M967.86 831.778H56.14c-31.396 0-55.982-24.586-55.982-55.982v-31.99a7.994 7.994 0 0 1 7.998-7.998 7.994 7.994 0 0 1 7.998 7.998v31.99c0 22.43 17.558 39.986 39.988 39.986h911.72c22.434 0 39.988-17.556 39.988-39.986v-31.74a7.994 7.994 0 0 1 8-7.998 7.992 7.992 0 0 1 7.996 7.998v31.74c-0.002 31.396-24.588 55.982-55.986 55.982zM88.13 640.086a7.994 7.994 0 0 1-7.998-7.998V104.25a7.994 7.994 0 0 1 7.998-7.998 7.994 7.994 0 0 1 7.998 7.998v527.838a7.994 7.994 0 0 1-7.998 7.998z" fill=""></path><path d="M72.136 160.232H56.14c-4.42 0-7.998-3.576-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.576 7.998 7.998s-3.578 7.998-7.998 7.998zM72.136 208.218H56.14c-4.42 0-7.998-3.578-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.578 7.998 7.998s-3.578 7.998-7.998 7.998zM72.136 256.204H56.14c-4.42 0-7.998-3.576-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.576 7.998 7.998s-3.578 7.998-7.998 7.998zM72.136 304.19H56.14c-4.42 0-7.998-3.578-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.578 7.998 7.998s-3.578 7.998-7.998 7.998zM72.136 352.174H56.14c-4.42 0-7.998-3.576-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.576 7.998 7.998s-3.578 7.998-7.998 7.998zM72.136 400.16H56.14a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h15.996a7.994 7.994 0 0 1 7.998 7.998 7.996 7.996 0 0 1-7.998 7.998zM72.136 448.144H56.14a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h15.996a7.994 7.994 0 0 1 7.998 7.998 7.994 7.994 0 0 1-7.998 7.998zM72.136 496.13H56.14a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h15.996a7.994 7.994 0 0 1 7.998 7.998 7.996 7.996 0 0 1-7.998 7.998zM72.136 544.116H56.14a7.994 7.994 0 0 1-7.998-7.998 7.992 7.992 0 0 1 7.998-7.996h15.996a7.992 7.992 0 0 1 7.998 7.996 7.994 7.994 0 0 1-7.998 7.998zM72.136 592.102H56.14c-4.42 0-7.998-3.578-7.998-7.998s3.578-7.998 7.998-7.998h15.996c4.42 0 7.998 3.578 7.998 7.998s-3.578 7.998-7.998 7.998zM200.096 160.232h-63.98c-4.42 0-7.998-3.576-7.998-7.998s3.576-7.998 7.998-7.998h63.98c4.42 0 7.998 3.576 7.998 7.998s-3.578 7.998-7.998 7.998zM456.016 208.218h-191.94c-4.42 0-7.998-3.578-7.998-7.998s3.576-7.998 7.998-7.998h191.94c4.422 0 7.998 3.578 7.998 7.998s-3.576 7.998-7.998 7.998zM232.086 208.218H152.11c-4.42 0-7.998-3.578-7.998-7.998s3.578-7.998 7.998-7.998h79.976c4.42 0 7.998 3.578 7.998 7.998s-3.578 7.998-7.998 7.998zM456.016 256.204h-15.994c-4.42 0-7.998-3.576-7.998-7.998s3.578-7.998 7.998-7.998h15.994c4.422 0 7.998 3.576 7.998 7.998s-3.576 7.998-7.998 7.998zM408.032 256.204H168.106c-4.42 0-7.998-3.576-7.998-7.998s3.576-7.998 7.998-7.998h239.926c4.42 0 7.998 3.576 7.998 7.998s-3.578 7.998-7.998 7.998zM216.09 352.174H168.106c-4.42 0-7.998-3.576-7.998-7.998s3.576-7.998 7.998-7.998h47.986c4.42 0 7.998 3.576 7.998 7.998s-3.58 7.998-8 7.998zM456.016 352.174H248.082c-4.42 0-7.998-3.576-7.998-7.998s3.578-7.998 7.998-7.998h207.936c4.422 0 7.998 3.576 7.998 7.998s-3.578 7.998-8 7.998zM456.016 304.19H184.1c-4.42 0-7.998-3.578-7.998-7.998s3.578-7.998 7.998-7.998h271.916c4.422 0 7.998 3.578 7.998 7.998s-3.576 7.998-7.998 7.998zM456.016 400.16h-63.98a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h63.98a7.994 7.994 0 0 1 7.998 7.998 7.994 7.994 0 0 1-7.998 7.998zM408.032 448.144H152.11a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h255.922a7.994 7.994 0 0 1 7.998 7.998 7.994 7.994 0 0 1-7.998 7.998zM280.072 544.116h-127.96a7.994 7.994 0 0 1-7.998-7.998 7.992 7.992 0 0 1 7.998-7.996h127.96a7.992 7.992 0 0 1 7.998 7.996 7.994 7.994 0 0 1-7.998 7.998zM456.016 496.13h-79.974a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h79.974a7.994 7.994 0 0 1 7.998 7.998 7.994 7.994 0 0 1-7.998 7.998zM344.052 496.13H168.106a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h175.946a7.994 7.994 0 0 1 7.998 7.998 7.994 7.994 0 0 1-7.998 7.998zM200.096 592.102h-63.98c-4.42 0-7.998-3.578-7.998-7.998s3.576-7.998 7.998-7.998h63.98c4.42 0 7.998 3.578 7.998 7.998s-3.578 7.998-7.998 7.998zM456.016 448.144h-15.994a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h15.994a7.994 7.994 0 0 1 7.998 7.998 7.992 7.992 0 0 1-7.998 7.998zM360.046 400.16h-191.94a7.994 7.994 0 0 1-7.998-7.998 7.994 7.994 0 0 1 7.998-7.998h191.942a7.994 7.994 0 0 1 7.998 7.998 7.996 7.996 0 0 1-8 7.998z" fill=""></path><path d="M512 640.086a7.994 7.994 0 0 1-7.998-7.998V104.25A7.994 7.994 0 0 1 512 96.252a7.992 7.992 0 0 1 7.996 7.998v527.838a7.992 7.992 0 0 1-7.996 7.998z" fill=""></path><path d="M903.878 544.116a7.984 7.984 0 0 1-6.7-3.638l-97.27-149.634-97.266 149.634c-2.39 3.732-7.372 4.748-11.058 2.358a8.012 8.012 0 0 1-2.344-11.074l103.968-159.952c2.938-4.544 10.464-4.544 13.402 0l103.968 159.952a8.012 8.012 0 0 1-2.344 11.074c-1.34 0.872-2.856 1.28-4.356 1.28z" fill=""></path><path d="M631.964 544.116a7.998 7.998 0 0 1-6.656-12.434l63.98-95.876a8 8 0 0 1 13.308 0l31.524 47.25a8 8 0 0 1-2.218 11.09c-3.672 2.42-8.636 1.468-11.09-2.218l-24.868-37.278-57.328 85.904a7.99 7.99 0 0 1-6.652 3.562zM631.964 432.15c-22.058 0-39.988-17.94-39.988-39.988s17.93-39.988 39.988-39.988c22.054 0 39.988 17.94 39.988 39.988 0.002 22.048-17.932 39.988-39.988 39.988z m0-63.98c-13.23 0-23.992 10.762-23.992 23.992s10.762 23.992 23.992 23.992 23.992-10.762 23.992-23.992-10.76-23.992-23.992-23.992z" fill=""></path><path d="M919.876 544.116H567.984c-4.422 0-8-3.576-8-7.998V328.182a7.994 7.994 0 0 1 8-7.998h351.89a7.992 7.992 0 0 1 7.996 7.998v207.936a7.988 7.988 0 0 1-7.994 7.998z m-343.896-15.994h335.898V336.18H575.98v191.942z" fill=""></path><path d="M919.876 160.232H567.984c-4.422 0-8-3.576-8-7.998s3.578-7.998 8-7.998h351.89c4.422 0 7.996 3.576 7.996 7.998s-3.574 7.998-7.994 7.998z" fill=""></path><path d="M919.876 288.194a7.99 7.99 0 0 1-7.996-7.998v-127.96c0-4.42 3.574-7.998 7.996-7.998s7.996 3.576 7.996 7.998v127.96a7.992 7.992 0 0 1-7.996 7.998z" fill=""></path><path d="M919.876 288.194H567.984c-4.422 0-8-3.576-8-7.998s3.578-7.998 8-7.998h351.89c4.422 0 7.996 3.576 7.996 7.998s-3.574 7.998-7.994 7.998z" fill=""></path><path d="M871.89 224.212H567.984c-4.422 0-8-3.576-8-7.998s3.578-7.998 8-7.998h303.906c4.418 0 7.996 3.576 7.996 7.998s-3.578 7.998-7.996 7.998z" fill=""></path><path d="M919.876 592.102H567.984c-4.422 0-8-3.578-8-7.998s3.578-7.998 8-7.998h351.89c4.422 0 7.996 3.578 7.996 7.998s-3.574 7.998-7.994 7.998z" fill=""></path></g></svg>
+                <a href="https://webarcitech.com/" target="_blank"><h3 class="py-5 tracking-widest text-indigo-500 text-lg font-medium title-font">ARCITECH</h3></a>
+                <h2 class="text-sm text-gray-500 title-font mb-4">Web development Intern | 3 months</h2>
+                <p class="t leading-relaxed text-base">Applied my web development skills to create web based products for different clients that approached our
+company.</p>
+                
+                
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">HTML</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">CSS</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">JS</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">SEO</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">WP</button>
+                
+                
+                <a href="https://drive.google.com/file/d/1ifwj62BArMfuDz7-2gqoiu4XMyoqNkYj/view?usp=sharing" target="_blank">
+                  <p class="mt-2 flex items-center text-xs text-gray-500 hover:text-gray-700">
+                    Experience Letter
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-1 h-3 w-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </p>
+                </a>
+                
+
+              </div>
+            </div>
+
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+              <div class="exp-cards p-6">
+                <!-- <img class="h-40 w-full object-cover object-center mb-6" src="https://dummyimage.com/720x400" alt="content"> -->
+                <svg class="mt-10" width="50px" height="50px" viewBox="-2 -2 24.00 24.00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>file_ai [#9a9a9aa9a9a]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-260.000000, -1359.000000)" fill="#9a9a9a"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M224,1204.6523 L224,1219.0003 L219,1219.0003 L219,1217.0003 L222,1217.0003 L222,1207.0003 L216,1207.0003 L216,1201.0003 L206,1201.0003 L206,1209.0003 L204,1209.0003 L204,1199.0003 L217.979,1199.0003 L224,1204.6523 Z M217,1211.0003 L217,1213.0003 L215,1213.0003 L215,1217.0003 L217,1217.0003 L217,1219.0003 L211,1219.0003 L211,1217.0003 L213,1217.0003 L213,1213.0003 L211,1213.0003 L211,1211.0003 L217,1211.0003 Z M206,1215.1053 L208,1215.1053 L208,1213.1053 L206,1213.1053 L206,1215.1053 Z M204,1211.0003 L204,1219.0003 L206,1219.0003 L206,1217.0003 L208,1217.0003 L208,1219.0003 L210,1219.0003 L210,1211.0003 L204,1211.0003 Z" id="file_ai-[#9a9a9aa9a9a]"> </path> </g> </g> </g> </g></svg>
+                <h3 class="py-5 tracking-widest text-indigo-500 text-lg font-medium title-font">UNIV.AI</h3>
+                <h2 class="text-sm text-gray-500 title-font mb-4">Project Intern | 2 months</h2>
+                <p class="t leading-relaxed text-base">I was tasked with collecting relevant information and code to create a complete guide for students to
+learn about DS.</p>
+              
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">ML</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">DL</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">Big Data</button>
+                
+                
+                <a href="https://drive.google.com/file/d/1iCYpY_fQtn9vj7-njzjhGCOvAleqcaif/view?usp=sharing" target="_blank">
+                  <p class="mt-2 flex items-center text-xs text-gray-500 hover:text-gray-700">
+                    Offer Letter
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-1 h-3 w-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </p>
+                </a>
+              
+              </div>
+            </div>
+
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+              <div class="exp-cards p-6">
+                <!-- <img class="h-40 w-full object-cover object-center mb-6" src="https://dummyimage.com/720x400" alt="content"> -->
+                <svg class="mt-10" fill="#9a9a9a" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" width="50px" height="50px" stroke="#9a9a9a" stroke-width="0.00032"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.192"></g><g id="SVGRepo_iconCarrier"> <path id="machine--learning--03_1_" d="M29.36,15.695v-3.389c0.575-0.159,1-0.681,1-1.305c0-0.75-0.61-1.36-1.36-1.36 c-0.191,0-0.372,0.04-0.537,0.111l-2.365-2.956C26.261,6.572,26.36,6.298,26.36,6c0-0.75-0.61-1.36-1.36-1.36 c-0.401,0-0.758,0.177-1.007,0.454l-3.659-1.83C20.351,3.179,20.36,3.091,20.36,3c0-0.75-0.61-1.36-1.36-1.36 c-0.625,0-1.147,0.425-1.306,1h-4.389c-0.159-0.575-0.681-1-1.305-1c-0.75,0-1.36,0.61-1.36,1.36c0,0.091,0.01,0.179,0.027,0.264 l-2.66,1.33C7.758,4.318,7.401,4.14,7,4.14c-0.75,0-1.36,0.61-1.36,1.36c0,0.273,0.082,0.526,0.221,0.739L3.598,8.785 C3.417,8.695,3.216,8.64,3,8.64c-0.75,0-1.36,0.61-1.36,1.36c0,0.625,0.425,1.146,1,1.305v3.389c-0.575,0.159-1,0.681-1,1.305 c0,0.75,0.61,1.36,1.36,1.36c0.546,0,1.014-0.325,1.231-0.791l3.424,0.571C7.726,17.824,8.298,18.36,9,18.36 c0.091,0,0.179-0.01,0.264-0.027l0.83,1.659C9.818,20.242,9.64,20.599,9.64,21c0,0.75,0.61,1.36,1.36,1.36 c0.47,0,0.885-0.24,1.13-0.604l3.518,1.173C15.646,22.953,15.64,22.976,15.64,23c0,0.625,0.425,1.147,1,1.306v3.388 c-0.575,0.159-1,0.681-1,1.306c0,0.75,0.61,1.36,1.36,1.36s1.36-0.61,1.36-1.36c0-0.624-0.425-1.147-1-1.306v-3.389 c0.575-0.159,1-0.681,1-1.306c0-0.452-0.224-0.85-0.564-1.098l0.682-1.82l3.163,0.904c0,0.005-0.001,0.01-0.001,0.015 c0,0.624,0.425,1.147,1,1.306v5.389c-0.575,0.159-1,0.681-1,1.306c0,0.75,0.61,1.36,1.36,1.36s1.36-0.61,1.36-1.36 c0-0.624-0.425-1.147-1-1.306v-5.389c0.575-0.159,1-0.681,1-1.306c0-0.149-0.03-0.29-0.074-0.424l3.828-2.553 C28.353,18.231,28.66,18.36,29,18.36c0.75,0,1.36-0.61,1.36-1.36C30.36,16.376,29.935,15.854,29.36,15.695z M21.354,14.932 c-0.002-0.045-0.007-0.09-0.014-0.134l3.049-1.355l3.313,2.899L21.354,14.932z M20,15.64c-0.353,0-0.64-0.287-0.64-0.64 s0.287-0.64,0.64-0.64s0.64,0.287,0.64,0.64S20.353,15.64,20,15.64z M20,13.64c-0.75,0-1.36,0.61-1.36,1.36 c0,0.452,0.224,0.85,0.564,1.097l-1.166,3.11l-1.902-0.543l-1.465-5.126l5.463-3.756l0.628,0.489l3.028,2.65l-2.745,1.22 C20.796,13.838,20.423,13.64,20,13.64z M9.131,15.653L8.122,9.85l3.612-0.361V9.485C11.93,9.995,12.421,10.36,13,10.36 c0.005,0,0.009-0.001,0.014-0.001l0.823,2.879l-3.966,2.726C9.666,15.792,9.412,15.681,9.131,15.653z M13,9.64 c-0.353,0-0.64-0.287-0.64-0.64S12.647,8.36,13,8.36S13.64,8.647,13.64,9S13.353,9.64,13,9.64z M10.28,16.557l3.765-2.589 l1.275,4.463l-4.962-1.418c0-0.005,0.001-0.009,0.001-0.014C10.36,16.844,10.328,16.697,10.28,16.557z M24.129,7.036 C24.366,7.235,24.667,7.36,25,7.36c0.191,0,0.372-0.04,0.537-0.111l2.365,2.955C27.739,10.428,27.64,10.702,27.64,11 c0,0.069,0.01,0.135,0.02,0.201l-3.144,1.397l-3.295-2.883l-0.464-0.361L24.129,7.036z M28.251,15.866l-3.138-2.745l2.841-1.262 c0.176,0.213,0.412,0.371,0.686,0.446v3.389C28.501,15.733,28.369,15.789,28.251,15.866z M29.64,11c0,0.353-0.287,0.64-0.64,0.64 s-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64S29.64,10.647,29.64,11z M25,5.36c0.353,0,0.64,0.287,0.64,0.64S25.353,6.64,25,6.64 S24.36,6.353,24.36,6S24.647,5.36,25,5.36z M19,2.36c0.353,0,0.64,0.287,0.64,0.64S19.353,3.64,19,3.64S18.36,3.353,18.36,3 S18.647,2.36,19,2.36z M19,4.36c0.401,0,0.758-0.177,1.007-0.454l3.659,1.83C23.649,5.821,23.64,5.909,23.64,6 c0,0.156,0.032,0.303,0.08,0.443l-3.56,2.448l-6.904-5.37c0.021-0.051,0.035-0.106,0.05-0.161h4.389 C17.853,3.935,18.375,4.36,19,4.36z M12,2.36c0.353,0,0.64,0.287,0.64,0.64S12.353,3.64,12,3.64S11.36,3.353,11.36,3 S11.647,2.36,12,2.36z M10.993,3.906C11.242,4.182,11.599,4.36,12,4.36c0.304,0,0.583-0.104,0.81-0.274l6.728,5.232l-5.075,3.489 l-0.757-2.65C14.096,9.918,14.36,9.491,14.36,9c0-0.75-0.61-1.36-1.36-1.36c-0.673,0-1.229,0.492-1.337,1.135V8.772L7.998,9.138 l-0.42-2.412C8.039,6.508,8.36,6.042,8.36,5.5c0-0.091-0.01-0.179-0.027-0.264L10.993,3.906z M4.265,9.511 C4.231,9.423,4.19,9.339,4.139,9.261l2.263-2.546c0.143,0.071,0.3,0.115,0.467,0.132L7.28,9.21L4.265,9.511z M7,4.86 c0.353,0,0.64,0.287,0.64,0.64S7.353,6.14,7,6.14S6.36,5.853,6.36,5.5S6.647,4.86,7,4.86z M2.36,10c0-0.353,0.287-0.64,0.64-0.64 S3.64,9.647,3.64,10S3.353,10.64,3,10.64S2.36,10.353,2.36,10z M3,16.64c-0.353,0-0.64-0.287-0.64-0.64S2.647,15.36,3,15.36 S3.64,15.647,3.64,16C3.64,16.353,3.353,16.64,3,16.64z M7.769,16.43l-3.424-0.571c-0.059-0.561-0.455-1.018-0.986-1.165v-3.389 c0.503-0.139,0.888-0.556,0.977-1.077l3.067-0.307l1.018,5.853C8.135,15.91,7.904,16.142,7.769,16.43z M8.36,17 c0-0.353,0.287-0.64,0.64-0.64S9.64,16.647,9.64,17S9.353,17.64,9,17.64S8.36,17.353,8.36,17z M11,21.64 c-0.353,0-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64s0.64,0.287,0.64,0.64S11.353,21.64,11,21.64z M12.353,21.071 c0.001-0.024,0.007-0.047,0.007-0.071c0-0.75-0.61-1.36-1.36-1.36c-0.091,0-0.179,0.01-0.264,0.027l-0.83-1.659 c0.098-0.088,0.182-0.189,0.251-0.302l5.396,1.541l0.742,2.596c-0.168,0.103-0.315,0.238-0.425,0.402L12.353,21.071z M17.64,29 c0,0.353-0.287,0.64-0.64,0.64c-0.353,0-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64C17.353,28.36,17.64,28.647,17.64,29z M17,23.64 c-0.353,0-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64c0.353,0,0.64,0.287,0.64,0.64S17.353,23.64,17,23.64z M17.121,21.652 C17.08,21.648,17.041,21.64,17,21.64c-0.005,0-0.009,0.001-0.014,0.001l-0.618-2.162l1.416,0.404L17.121,21.652z M18.732,19.406 l1.147-3.059c0.041,0.004,0.08,0.012,0.121,0.012c0.519,0,0.967-0.296,1.196-0.725l6.451,1.433c0.006,0.124,0.03,0.243,0.068,0.356 l-3.828,2.553C23.647,19.769,23.34,19.64,23,19.64c-0.491,0-0.918,0.264-1.158,0.655L18.732,19.406z M23.64,29 c0,0.353-0.287,0.64-0.64,0.64s-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64S23.64,28.647,23.64,29z M23,21.64 c-0.353,0-0.64-0.287-0.64-0.64s0.287-0.64,0.64-0.64s0.64,0.287,0.64,0.64S23.353,21.64,23,21.64z M29,17.64 c-0.353,0-0.64-0.287-0.64-0.64c0-0.353,0.287-0.64,0.64-0.64s0.64,0.287,0.64,0.64C29.64,17.353,29.353,17.64,29,17.64z"></path> <rect id="_Transparent_Rectangle" style="fill:none;" width="32" height="32"></rect> </g></svg>
+                <h3 class="py-5 tracking-widest text-indigo-500 text-lg font-medium title-font">PHEMESOFT</h3>
+                <h2 class="text-sm text-gray-500 title-font mb-4">Intern | 2 months</h2>
+                <p class="t leading-relaxed text-base">Tasked with creating dashboards and perform data analytics on dataset given by company. Implemented ML algorithms. </p>
+              
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">PowerBI</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">ML</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">DL</button>
+                
+                
+                <a href="https://drive.google.com/file/d/1M0rCVbcsF-DRVCEo4B9LgL_MfWpCMl4_/view?usp=sharing" target="_blank" hreflang="">
+                  <p class="mt-2 flex items-center text-xs text-gray-500 hover:text-gray-700">
+                    Offer Letter
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-1 h-3 w-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </p>
+                </a>
+              
+              </div>
+            </div>
+
+            
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+              <div class="exp-cards p-6">
+                <!-- <img class="h-40 w-full object-cover object-center mb-6" src="https://dummyimage.com/720x400" alt="content"> -->
+                <svg class="mt-10" width="50px" height="50px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#9a9a9a" stroke="#9a9a9a"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.624"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="Code"> <g> <polyline data-name="Right" fill="none" id="Right-2" points="15.5 7 20.5 12 15.5 17" stroke="#9a9a9a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> <polyline data-name="Left" fill="none" id="Left-2" points="8.5 7 3.5 12 8.5 17" stroke="#9a9a9a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline> </g> </g> </g> </g></svg>
+                
+                <div class="tooltip">
+                  <h3 class="py-5 tracking-widest text-indigo-500 text-lg font-medium title-font">GDSC</h3>
+                  <span class="tooltiptext">Google Developers Student Club</span>
+                </div>
+                
+                <h2 class="text-sm text-gray-500 title-font mb-4">Head of AI | 1 year</h2>
+                <p class="t leading-relaxed text-base">Organized AI Summit with GDEs as Head of department. Created custom Dreambooth for the event and set it up as display</p>
+              
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">DL</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">CV</button>
+                <button class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">Stable Diffusion</button>
+                
+                
+                <a href="https://www.linkedin.com/posts/sammyboi1801_gdsc-aisummit-google-activity-7030940057154859008-QNud?utm_source=share&utm_medium=member_desktop" target="_blank">
+                  <p class="mt-2 flex items-center text-xs text-gray-500 hover:text-gray-700">
+                    Link
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-1 h-3 w-3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </p>
+                </a>
+              
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+      
+
+      <section id="projects-section" class="pt-10 pb-20 body-font flex flex-col items-center">
+        <h3 class="pb-20 experience-title"> Projects</h3>
+
+        <div class="project-card xl:w-3/4 md:w-1/2 my-5 flex flex-col bg-[#1a1a1a] md:flex-row">
+          <img class="object-contain md:w-72" src="https://user-images.githubusercontent.com/80597420/208255391-3b45e1cb-7157-4d45-9b83-92818156a169.png" salt="" />
+          <div class="w-full flex flex-col justify-start p-6">
+            <div class="text-[#9a9a9a] text-xl mb-2">Welding Defect Prediction -  IITB Hackathon</div>
+            <p class="mb-1 text-sm text-[#9a9a9a]">
+              2nd Prize solution to IIT Techfest 2022's Weldright Hackathon. Created a tool which uses XGBoost algorithm to predict welding defects for Godrej & Boyce.
+            </p>
+            <p class="mb-1 text-sm text-[#9a9a9a]"> </p>
+            
+            <div class="flex items-center">
+              <div class="pt-4 text-sm">
+                <a href="https://github.com/sammyboi1801/welding-defect-detection" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">GITHUB</a>
+                <a href="https://bit.ly/welding-defect-predictor" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">LINK</a>
+                <!-- <p class="">Aug 18</p> -->
+                <p class="text-indigo-500 my-2">TOOLS USED: AWS, XGBoost, sklearn, pandas, numpy</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-card xl:w-3/4 md:w-1/2 my-5 flex flex-col bg-[#1a1a1a] md:flex-row">
+          <img class="object-contain md:w-72" src="https://user-images.githubusercontent.com/80597420/252281115-48ce7633-dcd0-4e7d-b2a3-ff52d3703a75.png" salt="" />
+          <div class="w-full flex flex-col justify-start p-6">
+            <div class="text-[#9a9a9a] text-xl mb-2">FreshGPT - TIAA Hackathon</div>
+            <p class="mb-1 text-sm text-[#9a9a9a]">
+              Won the 5th prize for creating a chatbot that could help facilitate farmers with selling their crops directly to their customers. We used the OpenAI API to request responses and a Django framework to serve the entire project.
+            </p>
+            <p class="mb-1 text-sm text-[#9a9a9a]"> </p>
+
+            <div class="flex items-center">
+              <div class="pt-4 text-sm">
+                <a href="https://github.com/sammyboi1801/freshgpt-tiaa" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">GITHUB</a>
+<!--                <a href="https://bit.ly/welding-defect-predictor" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">LINK</a>-->
+                <!-- <p class="">Aug 18</p> -->
+                <p class="text-indigo-500 my-2">TOOLS USED: Django, OPENAI, Tailwind</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-card xl:w-3/4 md:w-1/2 my-5 flex flex-col bg-[#1a1a1a] md:flex-row">
+          <img class="object-contain md:w-72" src="https://user-images.githubusercontent.com/80597420/213902688-ad68fe6d-1422-411e-9e76-69a3bef2ed7b.png" salt="" />
+          <div class="w-full flex flex-col justify-start p-6">
+            <div class="text-[#9a9a9a] text-xl mb-2">Stock Price Prediction</div>
+            <p class="mb-1 text-sm text-[#9a9a9a]">
+              Runners-up at Cyber Cypher, 2023. We created a tool which takes a company and gives a sentiment score for investment. We also take the recent news of the company and sentimentally analyze them to judge whether the company can be invested in.
+            </p>
+            <p class="mb-1 text-sm text-[#9a9a9a]"> </p>
+            
+            <div class="flex items-center">
+              <div class="pt-4 text-sm">
+                <a href="https://github.com/sammyboi1801/stonks-taqneeq-nlp" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">GITHUB</a>
+                <a href="https://bit.ly/stonks-sentiment-analyzer" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">LINK</a>
+                <p class="text-indigo-500 my-2">TOOLS USED: LSTM, BERT, Huggingface, Streamlit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-card xl:w-3/4 md:w-1/2 my-5 flex flex-col bg-[#1a1a1a] md:flex-row">
+          <img class="object-contain md:w-72" src="https://user-images.githubusercontent.com/80597420/252283128-9ec7c8a6-0389-408f-8a9b-b16c28117ce5.png" salt="" />
+          <div class="w-full flex flex-col justify-start p-6">
+            <div class="text-[#9a9a9a] text-xl mb-2">Titanic Dashboard</div>
+            <p class="mb-1 text-sm text-[#9a9a9a]">
+              Created a PowerBI dashboard using the titanic dataset to create a report and analyse the various parameters affecting survivability of passengers. I also used a random forest classifier to create a prediction model for the same.
+            </p>
+            <p class="mb-1 text-sm text-[#9a9a9a]"> </p>
+
+            <div class="flex items-center">
+              <div class="pt-4 text-sm">
+                <a href="https://github.com/sammyboi1801/titanic-ibm-project" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">GITHUB</a>
+                <a href="https://www.titanic-project.co/" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">LINK</a>
+                <!-- <p class="">Aug 18</p> -->
+                <p class="text-indigo-500 my-2">TOOLS USED: PowerBI, Sklearn, Random Forest classifier</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-card xl:w-3/4 md:w-1/2 my-5 flex flex-col bg-[#1a1a1a] md:flex-row">
+          <img class="object-contain md:w-72" src="https://user-images.githubusercontent.com/80597420/230734013-65cea4b0-7380-4a66-9a06-42ba540e4d4b.png" salt="" />
+          <div class="w-full flex flex-col justify-start p-6">
+            <div class="text-[#9a9a9a] text-xl mb-2">Weather Forecasting</div>
+            <p class="mb-1 text-sm text-[#9a9a9a]">
+              Created a weather forecasting app on streamlit. Implemented the random forest algorithm to predict the weather condition based on live weather of Indian states...
+            </p>
+            <p class="mb-1 text-sm text-[#9a9a9a]"> </p>
+            
+            <div class="flex items-center">
+              <div class="pt-4 text-sm">
+                <a href="https://github.com/sammyboi1801/weather-forecasting-app" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">GITHUB</a>
+                <a href="https://bit.ly/weather-forecasting-app" target="_blank" class="t bg-[#9a9a9a] text-[#1a1a1a] px-1 my-2 mr-2">LINK</a>
+                <p class="text-indigo-500 my-2">TOOLS USED: Random Forest Classifier, Streamlit, API</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        
+
+
+      </section>
+
+      <form method="post" action="#cv">
+          {% csrf_token %}
+      <div id="cv" class="email-cv flex place-items-center justify-center">
+        <div class="w-80">
+          <p class="t">💌 Enter your email to receive CV</p>
+          <input type="text" class="my-5 h-8 w-full border p-2 text-sm" name="emailcv" placeholder="Your email" />
+          <button type="submit" class="projects-button" onclick="document.getElementById('sound1').play();">We'll get back to you soon...</button>
+          <p class="t py-2"> {{ rmsg1 }}</p>
+          <a href="https://drive.google.com/file/d/1FV_3fG6ouPOQbVN5WfGrpQu7kUVuBvu-/view?usp=sharing" target="_blank">
+            <p class="mt-4 flex items-center text-xs text-gray-500 hover:text-gray-700">
+              Download now
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-1 h-3 w-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </p>
+          </a>
+        </div>
+      </div>
+      </form>
+
+
+      <section class="" id="contact">
+        <!-- <div class="absolute inset-0 bg-gray-300">
+          <iframe width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="map" scrolling="no" src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=%C4%B0zmir+(My%20Business%20Name)&ie=UTF8&t=&z=14&iwloc=B&output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.4);"></iframe>
+        </div> -->
+        <form method="post" action="#contact">
+          {% csrf_token %}
+        <div class="">
+
+          <div class="pt-20 flex place-items-center justify-center">
+            <h3 class="experience-title justify-center">Contact me</h3>
+          </div>
+          
+          <div class="p-20 flex place-items-center justify-center">
+            
+            <div class="contact-box bg-[#1a1a1a] p-8 w-[500px]">
+              <p class="leading-relaxed text-lg mb-5 text-[#9a9a9a]">Send me a mail!</p>
+              <div class="relative mb-4">
+                <label for="email" class="leading-7 text-sm text-[#9a9a9a]">Email</label>
+                <input type="email" id="email" name="email" class="w-full bg-white border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+              </div>
+              <div class="relative mb-4">
+                <label for="message" class="leading-7 text-sm text-[#9a9a9a]">Message</label>
+                <textarea id="message" name="message" value="message" class="w-full bg-white border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+              </div>
+<!--              <audio id="sound1" src="{% static 'click.mp3' %}" preload="auto"></audio>-->
+              <button type="submit" onclick="document.getElementById('sound1').play();" class="projects-button">Send</button> <p class="t py-2">{{ rmsg2 }}</p>
+              <p class="text-xs text-gray-500 mt-3">I'll get back to you as soon as possible :)</p>
+            </div>
+          </div>
+        </div>
+          </form>
+      </section>
+
+      
+      
+
+
+      <hr class="line">
+
+      <footer class="body-color body-font">
+        <div class="container mx-auto flex flex-wrap p-5 px-40 flex-col md:flex-row items-center" id="header1">
+          <a class="flex title-font font-medium items-center text-gray-400 mb-4 md:mb-0">
+            
+            <svg class="svg1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64px" height="64px" viewBox="-14.4 -14.4 64.80 64.80" enable-background="new 0 0 36 32" xml:space="preserve" fill="#9a9a9a" stroke="#9a9a9a" stroke-width="1.0080000000000002"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><rect x="-14.4" y="-14.4" width="64.80" height="64.80" rx="32.4" fill="#1a1a1a" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.36"></g><g id="SVGRepo_iconCarrier"> <g> <path fill="#9a9a9a" d="M14.191,16.087c-0.195-0.195-0.512-0.195-0.707,0l-3.517,3.516c-0.094,0.094-0.146,0.221-0.146,0.354 s0.053,0.26,0.146,0.354l3.517,3.517c0.098,0.098,0.226,0.146,0.354,0.146s0.256-0.049,0.354-0.146 c0.195-0.195,0.195-0.512,0-0.707l-3.163-3.163l3.163-3.163C14.386,16.599,14.386,16.283,14.191,16.087z"></path> <path fill="#9a9a9a" d="M19.857,23.827c0.098,0.098,0.226,0.146,0.354,0.146s0.256-0.049,0.354-0.146l3.516-3.517 c0.195-0.195,0.195-0.512,0-0.707l-3.516-3.516c-0.195-0.195-0.512-0.195-0.707,0s-0.195,0.512,0,0.707l3.163,3.163l-3.163,3.163 C19.662,23.315,19.662,23.632,19.857,23.827z"></path> <path fill="#9a9a9a" d="M17.383,16.325l-1.671,7.033c-0.064,0.269,0.102,0.539,0.371,0.602c0.039,0.009,0.078,0.014,0.116,0.014 c0.226,0,0.431-0.155,0.486-0.384l1.671-7.033c0.064-0.269-0.102-0.539-0.371-0.602C17.718,15.892,17.448,16.057,17.383,16.325z"></path> <path fill="#9a9a9a" d="M0,30.5C0,31.327,0.673,32,1.5,32h33c0.827,0,1.5-0.673,1.5-1.5v-18c0-0.276-0.224-0.5-0.5-0.5 S35,12.224,35,12.5v18c0,0.276-0.224,0.5-0.5,0.5h-33C1.224,31,1,30.776,1,30.5v-18C1,12.224,0.776,12,0.5,12S0,12.224,0,12.5V30.5 z"></path> <path fill="#9a9a9a" d="M34.5,0h-33C0.673,0,0,0.673,0,1.5v8C0,10.327,0.673,11,1.5,11h33c0.827,0,1.5-0.673,1.5-1.5v-8 C36,0.673,35.327,0,34.5,0z M35,9.5c0,0.276-0.224,0.5-0.5,0.5h-33C1.224,10,1,9.776,1,9.5v-8C1,1.224,1.224,1,1.5,1h33 C34.776,1,35,1.224,35,1.5V9.5z"></path> <circle fill="#9a9a9a" cx="4" cy="5.5" r="1"></circle> <circle fill="#9a9a9a" cx="7" cy="5.5" r="1"></circle> <circle fill="#9a9a9a" cx="10" cy="5.5" r="1"></circle> </g> </g></svg>
+            <span class="side-title">&#169; 2023 All rights reserved</span>
+
+          </a>
+          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://www.linkedin.com/in/sammyboi1801/" target="_blank">Linkedin</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://github.com/sammyboi1801" target="_blank">Github</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="https://leetcode.com/Sam18012002/" target="_blank">Leetcode</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="#cv">CV</a>
+            <a class="text-sm mr-5 hover:text-gray-300" href="#contact">Contact</a>
+            <!-- <a class="text-sm mr-5 hover:text-gray-300" href="#contact">CV</a> -->
+          </nav>
+          <!-- <button class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button> -->
+        </div>
+      </footer>
+      
+    
+
+
+
+
+</body>
+</html>
