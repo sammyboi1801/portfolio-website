@@ -11,7 +11,7 @@ def send_email_from_client(email, message):
 
 def send_email_to_client(email):
     subject = "Here you go! :)"
-    message = "Here's my CV: https://drive.google.com/file/d/1VsoOaBd8fbPYa37irciLGKdnQLNicA5c/view?usp=sharing"
+    message = "Here's my CV: https://drive.google.com/file/d/1Fi6m5pQmm14hIXYIlKhvvt7HUvptXYgF/view?usp=sharing"
     from_email = settings.EMAIL_HOST_USER
     # print(from_email)
     recipient_list = [email]
