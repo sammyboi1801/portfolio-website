@@ -183,27 +183,51 @@ def home(request):
 
 # --- NEW CHAT VIEW ---
 # Make sure to add path('api/kai-chat/', views.kai_chat, name='kai_chat') in urls.py
+# --- KAI CHAT VIEW ---
 def kai_chat(request):
     if request.method == 'POST':
         try:
-            # Parse JSON data from frontend
+            # 1. Check API Key
+            api_key = os.getenv("GEMINI_API_KEY")
+            if not api_key:
+                print("Error: GEMINI_API_KEY not found in .env file")
+                return JsonResponse({'status': 'error', 'response': "My brain is missing (API Key not found)."})
+
+            # 2. Configure Gemini
+            genai.configure(api_key=api_key)
+
+            # 3. Parse User Input
             data = json.loads(request.body)
             user_query = data.get('user_query', '')
 
             if not user_query:
                 return JsonResponse({'status': 'error', 'response': 'Please ask a question.'})
 
-            # Call Gemini API
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            prompt = f"Context: {SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
-            response = model.generate_content(prompt)
+            # 4. Call Gemini API
+            # Switched to 'gemini-pro' (Stable version)
+            try:
+                model = genai.GenerativeModel('gemini-pro')
+                prompt = f"{SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
+                response = model.generate_content(prompt)
+                ai_text = response.text if response.text else "I'm thinking..."
 
-            ai_text = response.text if response.text else "I'm thinking..."
+                return JsonResponse({'status': 'success', 'response': ai_text})
 
-            return JsonResponse({'status': 'success', 'response': ai_text})
+            except Exception as model_error:
+                # Debugging: Print available models if the name is wrong
+                print(f"Model Error: {model_error}")
+                print("Listing available models:")
+                for m in genai.list_models():
+                    if 'generateContent' in m.supported_generation_methods:
+                        print(m.name)
+
+                return JsonResponse(
+                    {'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"------------ KAI CHAT ERROR ------------")
+            print(e)
+            print(f"----------------------------------------")
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
