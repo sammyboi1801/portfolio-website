@@ -43,7 +43,7 @@ Model: Gemini
 👤 Profile Summary (Authoritative Context)
 Name: Sam Selvaraj
 Location: Boston, MA
-Role: Master’s Student in Computer Science in Northeastern Univeresity currently & AI/ML Engineer
+Role: Master’s Student in Computer Science in Northeastern Univeresity currently
 Website: https://www.samselva.xyz
 Email: samselvaraj1801@gmail.com
 
@@ -206,7 +206,7 @@ def kai_chat(request):
 
             # 4. Call Gemini API
             # Updated to use the model available in your list: 'gemini-2.5-flash'
-            model = genai.GenerativeModel('gemini-2.5-flash')
+            model = genai.GenerativeModel('gemini-2.5-pro')
 
             prompt = f"{SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
             response = model.generate_content(prompt)
@@ -223,4 +223,3 @@ def kai_chat(request):
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
-
