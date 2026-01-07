@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- {% load static %} -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam Selva - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #080808;
+            --card-bg: #111111;
+            --card-hover: #161616;
+            --border-color: #222222;
+            --text-main: #E5E5E5;
+            --text-muted: #666666;
+            --pill-bg: #1a1a1a;
+        }
+
+        body.light-mode {
+            --bg-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --card-hover: #fafafa;
+            --border-color: #d4d4d4;
+            --text-main: #171717;
+            --text-muted: #737373;
+            --pill-bg: #f3f4f6;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .custom-scroll::-webkit-scrollbar { width: 3px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        body, div, span, p, a, button, input {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body { 
+            opacity: 0; 
+            animation: fadeIn 0.8s ease-out forwards;
+            background: #161616;
+            background-image: radial-gradient(#3d3d3d 4%, transparent 0);
+            background-size: 25px 25px;
+            background-position: -19px -19px;
+            font-family: "Outfit", serif;
+        }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: 'var(--bg-color)',
+                        card: 'var(--card-bg)',
+                        cardHover: 'var(--card-hover)',
+                        border: 'var(--border-color)',
+                        textMain: 'var(--text-main)',
+                        textMuted: 'var(--text-muted)',
+                        pill: 'var(--pill-bg)',
+                    },
+                    animation: {
+                        'infinite-scroll': 'scroll 15s linear infinite',
+                        'spin-slow': 'spin 12s linear infinite', // Very slow rotation for sun
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite', // Slow pulse for moon
+                    },
+                    keyframes: {
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-bg text-textMain font-sans min-h-screen md:h-screen w-full md:overflow-hidden grid md:place-items-center p-4 md:p-0 select-none">
+
+    <div class="w-full max-w-[1400px] h-auto md:h-[90vh] md:max-h-[1000px] flex flex-col gap-6 md:px-6 lg:px-0">
+        
+        <header class="flex-none flex justify-between items-center h-12 md:h-10 px-1">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 md:w-8 md:h-8 rounded-full bg-pill overflow-hidden border border-border">
+                    <img src="https://raw.githubusercontent.com/sammyboi1801/sammyboi1801/main/mypicture2.jpg" alt="Profile" class="w-full h-full object-cover grayscale opacity-70">
+                </div>
+                <div>
+                    <h1 class="text-sm md:text-xs font-medium text-textMain">Sam Selvaraj</h1>
+                    <p class="text-[10px] text-textMuted uppercase tracking-wide">Constantly learning...</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-2">
+                <button onclick="toggleTheme()" class="group flex items-center justify-center w-8 h-8 bg-card border border-border rounded-full hover:bg-pill transition-all text-textMuted hover:text-textMain">
+                    <svg id="theme-icon" class="w-4 h-4 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 auto-rows-min md:grid-rows-4 gap-4 md:gap-3 pb-8 md:pb-0 min-h-0">
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between group hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+                <div class="flex justify-between items-start">
+                    <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Time</span>
+                    
+                    <div class="flex items-center gap-1.5 text-textMuted">
+                        <div id="time-icon-container" class="relative w-3.5 h-3.5 flex items-center justify-center"></div>
+                        <span class="text-[10px] md:text-[9px] uppercase tracking-widest">Boston</span>
+                    </div>
+                    
+                </div>
+                <div class="flex flex-col items-center justify-center flex-1">
+                    <div class="text-4xl md:text-3xl font-light tracking-tighter tabular-nums text-textMain" id="clock">--:--</div>
+                    <div class="text-[10px] md:text-[9px] text-textMuted mt-1 uppercase tracking-widest" id="ampm">--</div>
+                </div>
+            </div>
+
+            <!-- <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+                <div class="flex justify-between items-start">
+                    <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Mode</span>
+                    <div class="relative w-2 h-2 md:w-1.5 md:h-1.5 mt-0.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-full w-full bg-emerald-500"></span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm md:text-xs font-medium text-textMain">Freelance</h3>
+                    <p class="text-xs md:text-[10px] text-textMuted mt-0.5 mb-3 md:mb-2">Open to work</p>
+                    <a href="#" class="flex justify-between items-center border border-border bg-pill rounded-lg md:rounded px-3 py-2 md:px-2.5 md:py-1.5 hover:bg-bg transition-colors text-xs md:text-[9px] text-textMuted hover:text-textMain">
+                        Contact
+                        <svg class="w-2.5 h-2.5 md:w-2 md:h-2 -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div> -->
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+    
+                <div class="flex justify-between items-start">
+                    <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Now Playing</span>
+                    
+                    <div class="flex items-end gap-[2px] h-3">
+                        <span class="w-[2px] h-full bg-[#1DB954] animate-[bounce_1s_infinite]"></span>
+                        <span class="w-[2px] h-2/3 bg-[#1DB954] animate-[bounce_1.2s_infinite]"></span>
+                        <span class="w-[2px] h-full bg-[#1DB954] animate-[bounce_0.8s_infinite]"></span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 md:gap-2.5 mt-2">
+                    <div class="relative w-11 h-11 md:w-10 md:h-10 flex-none bg-pill border border-border rounded-md overflow-hidden group-hover:border-textMuted transition-colors">
+                        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&h=100&fit=crop" class="w-full h-full object-cover opacity-80" alt="Album Art">
+                    </div>
+
+                    <div class="min-w-0 flex-1 flex flex-col justify-center">
+                        <h3 class="text-sm md:text-xs font-medium text-textMain truncate leading-tight">
+                            Pink + White
+                        </h3>
+                        <p class="text-xs md:text-[10px] text-textMuted truncate leading-tight mt-0.5">
+                            Frank Ocean
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 md:mb-2">About</span>
+                <p class="text-xs md:text-[10px] text-textMuted leading-relaxed">
+                    I'm Sam, a Master's student in Boston. I have a passion for crafting digital experiences that blend creativity and technology.
+                </p>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 row-span-1 sm:row-span-2 md:row-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[220px] md:min-h-0">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 flex-none">Experience</span>
+                <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-5 md:space-y-4">
+                    <div class="group">
+                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Sept 2025 — May 2027</div>
+                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Master's in CS</h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Northeastern University</p>
+                    </div>
+                    <div class="group">
+                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Jan 2024 — July 2025</div>
+                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">ZS Associates</h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Decision Analyst Associate</p>
+                    </div>
+                    <div class="group">
+                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2023 — July 2023</div>
+                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Phemesoft Ltd.</h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Machine Learning Intern</p>
+                    </div>
+                     <div class="group">
+                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2022 — July 2022</div>
+                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Arcitech</h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Web Developer Intern</p>
+                    </div>
+                    <div class="group opacity-60">
+                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">2020 — 2024</div>
+                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">B.Tech in CE</h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">NMIMS MPSTME</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 row-span-1 sm:row-span-2 md:row-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[220px] md:min-h-0">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 flex-none">Projects</span>
+                <div class="flex-1 overflow-y-auto custom-scroll pr-1 flex flex-col gap-4 md:gap-3">
+                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
+                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+                        </div>
+                        <div class="min-w-0">
+                            <a href="https://github.com/sammyboi1801/OrchestrAI" target="_blank">
+                                <h4 class="text-sm md:text-xs text-textMain truncate">OrchestrAI</h4>
+                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">A Multi-Agent System based on LangGraph</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
+                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+                        </div>
+                        <div class="min-w-0">
+                            <a href="https://github.com/NMT-ARM-vs-Diffusion/Diffusion-vs-Auto-regressive-for-NMT" target="_blank">
+                                <h4 class="text-sm md:text-xs text-textMain truncate">ARM vs Diffusion</h4>
+                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">Comparing diffusion vs transformers for NMT</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
+                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+                        </div>
+                        <div class="min-w-0">
+                            <a href="https://github.com/sammyboi1801/welding-defect-detection" target="_blank">
+                                <h4 class="text-sm md:text-xs text-textMain truncate">Welding Defect Detection</h4>
+                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">2nd Prize solution to IIT Techfest 2022's Weldright Hackathon</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
+                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+                        </div>
+                        <div class="min-w-0">
+                            <a href="https://github.com/sammyboi1801/ping-pong-neat-ai" target="_blank">
+                                <h4 class="text-sm md:text-xs text-textMain truncate">Ping Pong AI</h4>
+                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">NEAT algorithm for ping pong</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">
+    
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex items-center gap-2">
+                        <div class="relative w-2 h-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                            <!-- <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span> -->
+                        </div>
+                        <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">KAI Assistant</span>
+                    </div>
+                    </div>
+
+                <div id="kai-messages" class="flex-1 overflow-y-auto custom-scroll pr-1 mb-3 flex flex-col gap-2 min-h-[40px]">
+                    <div class="self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]">
+                        <p class="text-[11px] md:text-[10px] text-textMuted leading-snug">
+                            Hi, I'm KAI. Ask me anything about Sam!
+                        </p>
+                    </div>
+                    
+                    </div>
+
+                <form id="kai-chat-form" method="POST" action="/api/kai-chat/" class="relative flex items-center gap-2">
+                    <!-- {% csrf_token %} -->
+                    <div class="relative w-full">
+                        <input 
+                            type="text" 
+                            name="user_query" 
+                            placeholder="Type a question..." 
+                            class="w-full bg-pill border border-border rounded-lg md:rounded-md pl-3 pr-9 py-2 md:py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted transition-colors"
+                            autocomplete="off"
+                            required
+                        >
+                        <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 bg-textMain text-bg p-1 rounded hover:opacity-80 transition-opacity">
+                            <svg class="w-3 h-3 md:w-2.5 md:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        
+
+            <!-- <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
+    
+                <style>
+                    /* Default (Dark Mode) - Glassy/Cyberpunk */
+                    .piano-key-white {
+                        background-color: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                    }
+                    .piano-key-black {
+                        background-color: #1a1a1a;
+                        border: 1px solid #333;
+                        width: 4%; /* Thinner black keys for 2 octaves */
+                    }
+
+                    /* Light Mode Override */
+                    body.light-mode .piano-key-white {
+                        background-color: #ffffff;
+                        border: 1px solid #d1d5db;
+                    }
+                    body.light-mode .white-key-active {
+                        background-color: #f3f4f6;
+                    }
+                    body.light-mode .piano-key-black {
+                        background-color: #171717;
+                        border: 1px solid #000;
+                    }
+                </style>
+
+                <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
+                    <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹</span>
+                    
+                    <div class="flex gap-2 pointer-events-auto">
+                        <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                            ▶ Stranger Things
+                        </button>
+                        <button onclick="playMelody('mario')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                            ▶ Mario
+                        </button>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 pt-12 px-2 pb-4 flex items-end justify-center">
+                    <div id="piano-container" class="relative w-full h-full max-h-[120px] flex">
+                        </div>
+                </div>
+
+                <script>
+                    // 1. Audio Context
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // 2-Octave Frequency Map (C4 to C6)
+                    const notes = {
+                        'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+                        'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+                        'A#4': 466.16, 'B4': 493.88,
+                        'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25,
+                        'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00,
+                        'A#5': 932.33, 'B5': 987.77,
+                        'C6': 1046.50
+                    };
+
+                    const keysData = [
+                        { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' }, 
+                        { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
+                        { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
+                        { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
+                        { note: 'G#4', type: 'black', left: '31%' }, { note: 'A4', type: 'white' },
+                        { note: 'A#4', type: 'black', left: '38%' }, { note: 'B4', type: 'white' },
+                        { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black', left: '51%' },
+                        { note: 'D5', type: 'white' }, { note: 'D#5', type: 'black', left: '58%' },
+                        { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },
+                        { note: 'F#5', type: 'black', left: '71.5%' }, { note: 'G5', type: 'white' },
+                        { note: 'G#5', type: 'black', left: '78%' }, { note: 'A5', type: 'white' },
+                        { note: 'A#5', type: 'black', left: '85%' }, { note: 'B5', type: 'white' },
+                        { note: 'C6', type: 'white' }
+                    ];
+
+                    // 2. Sound Logic
+                    function playTone(freq) {
+                        if (audioCtx.state === 'suspended') audioCtx.resume();
+                        const osc = audioCtx.createOscillator();
+                        const gainNode = audioCtx.createGain();
+                        osc.type = 'sine'; // Smooth synth
+                        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                        gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                        osc.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + 0.5);
+                    }
+
+                    // 3. Render Keys
+                    const container = document.getElementById('piano-container');
+                    const keyElements = {};
+
+                    keysData.forEach((key) => {
+                        const div = document.createElement('div');
+                        const isBlack = key.type === 'black';
+
+                        let layoutClasses = isBlack 
+                            ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black" 
+                            : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
+
+                        div.className = layoutClasses;
+                        if (isBlack) div.style.left = key.left;
+
+                        const trigger = () => {
+                            playTone(notes[key.note]);
+                            animateKey(div, isBlack);
+                        };
+                        div.addEventListener('mousedown', trigger);
+                        keyElements[key.note] = div;
+                        container.appendChild(div);
+                    });
+
+                    // 4. Animation
+                    function animateKey(element, isBlack) {
+                        element.style.backgroundColor = '#10b981';
+                        element.style.borderColor = '#10b981';
+                        element.style.boxShadow = '0 0 15px rgba(16,185,129,0.5)';
+                        if(!isBlack) element.style.transform = 'scale(0.98) translateY(2px)';
+
+                        setTimeout(() => {
+                            element.style.backgroundColor = '';
+                            element.style.borderColor = '';
+                            element.style.boxShadow = '';
+                            if(!isBlack) element.style.transform = '';
+                        }, 200);
+                    }
+
+                    // 5. Melodies
+                    window.playMelody = function(type) {
+                        let sequence = [];
+                        let speed = 200;
+
+                        if (type === 'stranger') {
+                            // Stranger Things (C Major 7 Arpeggio)
+                            sequence = ['C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'];
+                            speed = 160;
+                        } else if (type === 'mario') {
+                            // Super Mario Bros Theme
+                            // Intro: E5 E5 E5 - C5 E5 G5 - G4
+                            // Main: C5 G4 E4 - A4 B4 A#4 A4
+                            sequence = [
+                                // Intro
+                                'E5', 'E5', null, 'E5', null, 'C5', 'E5', null, 'G5', null, null, null, 'G4', null, null, null,
+                                // Main Theme - Part 1
+                                'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                                // Main Theme - Part 2
+                                null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                                null, 'E5', null, 'C5', 'D5', 'B4', null, null,
+                                'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                                // Main Theme - Part 2
+                                null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                                null, 'E5', null, 'C5', 'D5', 'B4', null, null
+                            ];
+                            speed = 140; // Faster tempo
+                        }
+
+                        sequence.forEach((note, i) => {
+                            setTimeout(() => {
+                                // Check if note exists (handles null pauses)
+                                if (note && keyElements[note]) {
+                                    playTone(notes[note]);
+                                    animateKey(keyElements[note], note.includes('#'));
+                                }
+                            }, i * speed);
+                        });
+                    };
+                </script>
+            </div> -->
+
+            <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
+    
+    <style>
+        /* Default (Dark Mode) - Glassy/Cyberpunk */
+        .piano-key-white {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .piano-key-black {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            width: 4%; /* Thinner black keys for 2 octaves */
+        }
+
+        /* Light Mode Override */
+        body.light-mode .piano-key-white {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+        }
+        body.light-mode .white-key-active {
+            background-color: #f3f4f6;
+        }
+        body.light-mode .piano-key-black {
+            background-color: #171717;
+            border: 1px solid #000;
+        }
+    </style>
+
+    <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
+         <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹 (Type to Play)</span>
+         
+         <div class="flex gap-2 pointer-events-auto">
+             <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                ▶ Stranger Things
+             </button>
+             <button onclick="playMelody('mario')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                ▶ Mario
+             </button>
+         </div>
+    </div>
+
+    <div class="absolute inset-0 pt-12 px-2 pb-4 flex items-end justify-center">
+        <div id="piano-container" class="relative w-full h-full max-h-[120px] flex">
+            </div>
+    </div>
+
+    <script>
+        // 1. Audio Context
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // 2-Octave Frequency Map (C4 to C6)
+        const notes = {
+            'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+            'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+            'A#4': 466.16, 'B4': 493.88,
+            'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25,
+            'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00,
+            'A#5': 932.33, 'B5': 987.77,
+            'C6': 1046.50
+        };
+
+        // Keyboard Mapping (FL Studio Style)
+        // Bottom Row: Z -> M (Lower Octave)
+        // Top Row: Q -> I (Upper Octave)
+        const keyMap = {
+            // Lower Octave (C4-B4)
+            'z': 'C4', 's': 'C#4', 'x': 'D4', 'd': 'D#4', 'c': 'E4', 'v': 'F4', 
+            'g': 'F#4', 'b': 'G4', 'h': 'G#4', 'n': 'A4', 'j': 'A#4', 'm': 'B4',
+            // Upper Octave (C5-C6)
+            'q': 'C5', '2': 'C#5', 'w': 'D5', '3': 'D#5', 'e': 'E5', 'r': 'F5', 
+            '5': 'F#5', 't': 'G5', '6': 'G#5', 'y': 'A5', '7': 'A#5', 'u': 'B5', 
+            'i': 'C6'
+        };
+
+        const keysData = [
+            { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' }, 
+            { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
+            { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
+            { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
+            { note: 'G#4', type: 'black', left: '31%' }, { note: 'A4', type: 'white' },
+            { note: 'A#4', type: 'black', left: '38%' }, { note: 'B4', type: 'white' },
+            { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black', left: '51%' },
+            { note: 'D5', type: 'white' }, { note: 'D#5', type: 'black', left: '58%' },
+            { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },
+            { note: 'F#5', type: 'black', left: '71.5%' }, { note: 'G5', type: 'white' },
+            { note: 'G#5', type: 'black', left: '78%' }, { note: 'A5', type: 'white' },
+            { note: 'A#5', type: 'black', left: '85%' }, { note: 'B5', type: 'white' },
+            { note: 'C6', type: 'white' }
+        ];
+
+        // 2. Sound Logic
+        function playTone(freq) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.type = 'sine'; // Smooth synth
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
+        // 3. Render Keys
+        const container = document.getElementById('piano-container');
+        const keyElements = {};
+
+        keysData.forEach((key) => {
+            const div = document.createElement('div');
+            const isBlack = key.type === 'black';
+
+            let layoutClasses = isBlack 
+                ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black" 
+                : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
+
+            div.className = layoutClasses;
+            if (isBlack) div.style.left = key.left;
+
+            const trigger = () => {
+                playTone(notes[key.note]);
+                animateKey(div, isBlack);
+            };
+            div.addEventListener('mousedown', trigger);
+            keyElements[key.note] = div;
+            container.appendChild(div);
+        });
+
+        // 4. Animation
+        function animateKey(element, isBlack) {
+            element.style.backgroundColor = '#10b981';
+            element.style.borderColor = '#10b981';
+            element.style.boxShadow = '0 0 15px rgba(16,185,129,0.5)';
+            if(!isBlack) element.style.transform = 'scale(0.98) translateY(2px)';
+
+            setTimeout(() => {
+                element.style.backgroundColor = '';
+                element.style.borderColor = '';
+                element.style.boxShadow = '';
+                if(!isBlack) element.style.transform = '';
+            }, 200);
+        }
+
+        // 5. Melodies
+        window.playMelody = function(type) {
+            let sequence = [];
+            let speed = 200;
+
+            if (type === 'stranger') {
+                // Stranger Things
+                sequence = ['C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4','C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'];
+                speed = 160;
+            } else if (type === 'mario') {
+                // Mario Theme
+                sequence = [
+                    'E5', 'E5', null, 'E5', null, 'C5', 'E5', null, 'G5', null, null, null, 'G4', null, null, null,
+                    'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                    null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                    null, 'E5', null, 'C5', 'D5', 'B4', null, null,
+                    'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                    null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                    null, 'E5', null, 'C5', 'D5', 'B4', null, null
+                ];
+                speed = 140;
+            }
+
+            sequence.forEach((note, i) => {
+                setTimeout(() => {
+                    if (note && keyElements[note]) {
+                        playTone(notes[note]);
+                        animateKey(keyElements[note], note.includes('#'));
+                    }
+                }, i * speed);
+            });
+        };
+
+        // 6. Keyboard Interaction Listener
+        document.addEventListener('keydown', (e) => {
+            // Ignore if user is typing in an input field (e.g. contact form)
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.repeat) return; // Prevent rapid firing when key held
+
+            const key = e.key.toLowerCase();
+            if (keyMap[key]) {
+                const noteName = keyMap[key];
+                if (keyElements[noteName]) {
+                    playTone(notes[noteName]);
+                    // Check if black key for correct visual animation
+                    const isBlack = noteName.includes('#');
+                    animateKey(keyElements[noteName], isBlack);
+                }
+            }
+        });
+    </script>
+</div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col min-h-[140px] md:min-h-0 hover:border-textMuted transition-colors">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 md:mb-2 flex-none">Publications</span>
+                
+                <div class="flex-1 space-y-3 md:space-y-3 overflow-y-auto custom-scroll pr-1">
+                    
+                    <a href="https://www.sciencedirect.com/science/article/pii/S0022510X25002722?via%3Dihub#:~:text=Data%20analytics%20support%20was%20provided%20by%20Sam%20Selvaraj%20(ZS%20Associates)." target="_blank" class="group block">
+                        <div class="flex justify-between items-baseline mb-0.5">
+                            <span class="text-[9px] text-textMuted uppercase tracking-wide">Aug 2025</span>
+                            <span class="text-[9px] text-textMuted text-right">J. Neuro Sci</span>
+                        </div>
+                        <h4 class="text-sm md:text-[11px] text-textMain font-medium leading-tight group-hover:text-emerald-500 transition-colors">
+                            Reduction in oral glucocorticoid use after efgartigimod
+                        </h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
+                            RWD-HEOR study demonstrating significant reduction in glucocorticoid use and improved daily living scores.
+                        </p>
+                    </a>
+
+                    <a href="https://ieeexplore.ieee.org/document/10985467" target="_blank" class="group block">
+                        <div class="flex justify-between items-baseline mb-0.5">
+                            <span class="text-[9px] text-textMuted uppercase tracking-wide">May 2025</span>
+                            <span class="text-[9px] text-textMuted text-right">IEEE</span>
+                        </div>
+                        <h4 class="text-sm md:text-[11px] text-textMain font-medium leading-tight group-hover:text-emerald-500 transition-colors">
+                            Performance analysis of GANs for synthetic histopathology
+                        </h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
+                            Explores Conditional and Cyclic GANs for generating synthetic medical images to tackle data scarcity in cancer diagnosis.
+                        </p>
+                    </a>
+
+                    <a href="https://www.irjet.net/archives/V11/i8/IRJET-V11I854.pdf" target="_blank" class="group block">
+                        <div class="flex justify-between items-baseline mb-0.5">
+                            <span class="text-[9px] text-textMuted uppercase tracking-wide">Aug 2024</span>
+                            <span class="text-[9px] text-textMuted text-right">IRJET</span>
+                        </div>
+                        <h4 class="text-sm md:text-[11px] text-textMain font-medium leading-tight group-hover:text-emerald-500 transition-colors">
+                            Integrated System for Self-Driving Cars
+                        </h4>
+                        <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
+                            Proposed lightweight parallel processing methodology for lane, pothole, and object detection in autonomous vehicles.
+                        </p>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Get in touch</span>
+                
+                <form action="#" method="POST" class="flex flex-col gap-2 mt-1">
+                    <!-- {% csrf_token %} -->
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Your email..." 
+                        class="w-full bg-pill border border-border rounded-lg md:rounded-md px-3 py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted"
+                        required
+                    >
+                    
+                    <div class="flex gap-2 md:gap-1.5">
+                        <input 
+                            type="text" 
+                            name="message" 
+                            placeholder="Message..." 
+                            class="w-full bg-pill border border-border rounded-lg md:rounded-md px-3 py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted"
+                            required
+                        >
+                        <button type="submit" class="bg-textMain text-bg border border-transparent px-3 py-1.5 rounded-lg md:rounded-md text-xs md:text-[10px] font-medium hover:opacity-80 transition-opacity">
+                            Send
+                        </button>
+                    </div>
+                    <!-- {% if rmsg2 %} -->
+                        <p class="text-[10px] text-emerald-500 mt-1">
+                            <!-- {{ rmsg2 }} -->
+                        </p>
+                    <!-- {% endif %} -->
+                </form>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-center hover:border-textMuted transition-colors min-h-[140px] md:min-h-0 font-mono text-xs md:text-[10px] overflow-hidden relative" id="terminal-card">
+    
+                <div class="absolute top-3 left-4 flex gap-1.5 opacity-50">
+                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                </div>
+
+                <div class="mt-4 ml-1 z-10">
+                    <div class="text-emerald-500 mb-1">sam@macbook:~/projects $</div>
+                    <div class="text-textMain h-12">
+                        <span class="opacity-50">></span> <span id="typewriter"></span><span class="animate-pulse bg-emerald-500 w-1.5 h-3 inline-block align-middle ml-1"></span>
+                    </div>
+                </div>
+
+                <script>
+                    (function() {
+                        const textElement = document.getElementById('typewriter');
+                        const phrases = [
+                            "pip install torch numpy",
+                            "python train_model.py --epochs=50",
+                            "Model Accuracy: 98.4%",
+                            "git push origin master",
+                            "Deploying to HuggingFace..."
+                        ];
+                        
+                        let phraseIndex = 0;
+                        let charIndex = 0;
+                        let isDeleting = false;
+                        let typeSpeed = 100;
+
+                        function type() {
+                            const currentPhrase = phrases[phraseIndex];
+                            
+                            if (isDeleting) {
+                                textElement.innerText = currentPhrase.substring(0, charIndex - 1);
+                                charIndex--;
+                                typeSpeed = 50; // Delete faster
+                            } else {
+                                textElement.innerText = currentPhrase.substring(0, charIndex + 1);
+                                charIndex++;
+                                typeSpeed = 100 + Math.random() * 50; // Random typing variance
+                            }
+
+                            if (!isDeleting && charIndex === currentPhrase.length) {
+                                isDeleting = true;
+                                typeSpeed = 1500; // Pause at end of sentence
+                            } else if (isDeleting && charIndex === 0) {
+                                isDeleting = false;
+                                phraseIndex = (phraseIndex + 1) % phrases.length;
+                                typeSpeed = 500; // Pause before new sentence
+                            }
+
+                            setTimeout(type, typeSpeed);
+                        }
+
+                        // Start loop
+                        type();
+                    })();
+                </script>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-center items-center relative hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+                 <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium absolute top-4 left-4">Connect</span>
+                 <div class="flex justify-center gap-8 md:gap-6 items-center flex-1">
+                    <a href="https://github.com/sammyboi1801" target="_blank" class="text-textMuted hover:text-textMain transition-all hover:scale-110">
+                        <svg class="w-6 h-6 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sammyboi1801/" target="_blank" class="text-textMuted hover:text-textMain transition-all hover:scale-110">
+                        <svg class="w-6 h-6 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+
+                    <a href="mailto:sammyboi1801@gmail.com" class="text-textMuted hover:text-textMain transition-all hover:scale-110">
+                        <svg class="w-6 h-6 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
+                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">CV</span>
+                <div class="flex flex-col gap-2 md:gap-1.5">
+                    <a href="#" class="flex justify-between items-center px-3 py-2 md:px-2.5 md:py-1.5 bg-pill border border-border rounded-lg md:rounded-md text-xs md:text-[10px] text-textMuted hover:bg-bg hover:text-textMain transition-colors">
+                        View
+                        <svg class="w-3 h-3 md:w-2.5 md:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="#" class="flex justify-between items-center px-3 py-2 md:px-2.5 md:py-1.5 bg-pill border border-border rounded-lg md:rounded-md text-xs md:text-[10px] text-textMuted hover:bg-bg hover:text-textMain transition-colors">
+                        Save
+                        <svg class="w-3 h-3 md:w-2.5 md:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="flex-none flex justify-between text-[10px] md:text-[9px] text-textMuted px-1 mt-4 md:mt-0">
+            <p>© 2026 Sam Selvaraj</p>
+            <a href="https://ff-widgets.framer.website/" target="_blank" class="hover:text-textMain transition-colors">
+                Design inspo ↗
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        // Track state to prevent unnecessary DOM updates every second
+        let isDaytimeState = null; 
+
+        // Clock (Fixed to Boston Time with Day/Night Animation)
+        function updateClock() {
+            const now = new Date();
+            const timeZone = "America/New_York";
+
+            // --- 1. Time Display Logic (Existing) ---
+            const displayOptions = {
+                timeZone: timeZone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            const formatter = new Intl.DateTimeFormat('en-US', displayOptions);
+            const parts = formatter.formatToParts(now);
+            const hourStr = parts.find(part => part.type === 'hour').value;
+            const minuteStr = parts.find(part => part.type === 'minute').value;
+            const ampmStr = parts.find(part => part.type === 'dayPeriod').value;
+
+            document.getElementById('clock').innerText = `${hourStr}:${minuteStr}`;
+            document.getElementById('ampm').innerText = ampmStr;
+
+            // --- 2. Day/Night Icon Logic (New) ---
+            // Get current Boston hour in 24-hour format (0-23) for logic
+            const logicFormatter = new Intl.DateTimeFormat('en-US', { timeZone: timeZone, hour: 'numeric', hour12: false });
+            const bostonHour24 = parseInt(logicFormatter.format(now));
+
+            // Define "Day" as 6am inclusive to 6pm exclusive (06:00 to 17:59)
+            const currentIsDaytime = bostonHour24 >= 6 && bostonHour24 < 18;
+
+            // Only update the DOM if the state has changed (e.g., sunrise/sunset)
+            if (isDaytimeState !== currentIsDaytime) {
+                isDaytimeState = currentIsDaytime;
+                const iconContainer = document.getElementById('time-icon-container');
+                
+                if (currentIsDaytime) {
+                    // Sun Icon rotating slowly
+                    iconContainer.innerHTML = `
+                        <svg class="w-full h-full text-amber-500 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    `;
+                } else {
+                    // Moon Icon pulsing slowly
+                    iconContainer.innerHTML = `
+                        <svg class="w-full h-full text-indigo-400 animate-pulse-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    `;
+                }
+            }
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+
+        // Theme Toggle (Existing)
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+        const sunPath = "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z";
+        const moonPath = "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z";
+
+        function toggleTheme() {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            themeIcon.querySelector('path').setAttribute('d', isLight ? moonPath : sunPath);
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        if (localStorage.getItem('theme') === 'light') {
+            toggleTheme();
+        }
+    </script>
+</body>
+</html>
