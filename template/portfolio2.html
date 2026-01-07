@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- {% load static %} -->
+ {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +34,7 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
+
         .custom-scroll::-webkit-scrollbar { width: 3px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
@@ -43,8 +43,8 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
-        body { 
-            opacity: 0; 
+        body {
+            opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
             background: #161616;
             background-image: radial-gradient(#3d3d3d 4%, transparent 0);
@@ -52,7 +52,7 @@
             background-position: -19px -19px;
             font-family: "Outfit", serif;
         }
-        
+
         @keyframes fadeIn { to { opacity: 1; } }
     </style>
 
@@ -92,7 +92,7 @@
 <body class="bg-bg text-textMain font-sans min-h-screen md:h-screen w-full md:overflow-hidden grid md:place-items-center p-4 md:p-0 select-none">
 
     <div class="w-full max-w-[1400px] h-auto md:h-[90vh] md:max-h-[1000px] flex flex-col gap-6 md:px-6 lg:px-0">
-        
+
         <header class="flex-none flex justify-between items-center h-12 md:h-10 px-1">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 md:w-8 md:h-8 rounded-full bg-pill overflow-hidden border border-border">
@@ -103,7 +103,7 @@
                     <p class="text-[10px] text-textMuted uppercase tracking-wide">Constantly learning...</p>
                 </div>
             </div>
-            
+
             <div class="flex gap-2">
                 <button onclick="toggleTheme()" class="group flex items-center justify-center w-8 h-8 bg-card border border-border rounded-full hover:bg-pill transition-all text-textMuted hover:text-textMain">
                     <svg id="theme-icon" class="w-4 h-4 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,12 +118,12 @@
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between group hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
                 <div class="flex justify-between items-start">
                     <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Time</span>
-                    
+
                     <div class="flex items-center gap-1.5 text-textMuted">
                         <div id="time-icon-container" class="relative w-3.5 h-3.5 flex items-center justify-center"></div>
                         <span class="text-[10px] md:text-[9px] uppercase tracking-widest">Boston</span>
                     </div>
-                    
+
                 </div>
                 <div class="flex flex-col items-center justify-center flex-1">
                     <div class="text-4xl md:text-3xl font-light tracking-tighter tabular-nums text-textMain" id="clock">--:--</div>
@@ -150,10 +150,10 @@
             </div> -->
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
-    
+
                 <div class="flex justify-between items-start">
                     <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Now Playing</span>
-                    
+
                     <div class="flex items-end gap-[2px] h-3">
                         <span class="w-[2px] h-full bg-[#1DB954] animate-[bounce_1s_infinite]"></span>
                         <span class="w-[2px] h-2/3 bg-[#1DB954] animate-[bounce_1.2s_infinite]"></span>
@@ -266,7 +266,7 @@
             </div>
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">
-    
+
                 <div class="flex justify-between items-center mb-2">
                     <div class="flex items-center gap-2">
                         <div class="relative w-2 h-2">
@@ -283,16 +283,16 @@
                             Hi, I'm KAI. Ask me anything about Sam!
                         </p>
                     </div>
-                    
+
                     </div>
 
                 <form id="kai-chat-form" method="POST" action="/api/kai-chat/" class="relative flex items-center gap-2">
-                    <!-- {% csrf_token %} -->
+                     {% csrf_token %}
                     <div class="relative w-full">
-                        <input 
-                            type="text" 
-                            name="user_query" 
-                            placeholder="Type a question..." 
+                        <input
+                            type="text"
+                            name="user_query"
+                            placeholder="Type a question..."
                             class="w-full bg-pill border border-border rounded-lg md:rounded-md pl-3 pr-9 py-2 md:py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted transition-colors"
                             autocomplete="off"
                             required
@@ -306,10 +306,10 @@
                 </form>
             </div>
 
-        
+
 
             <!-- <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
-    
+
                 <style>
                     /* Default (Dark Mode) - Glassy/Cyberpunk */
                     .piano-key-white {
@@ -338,7 +338,7 @@
 
                 <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
                     <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹</span>
-                    
+
                     <div class="flex gap-2 pointer-events-auto">
                         <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
                             ▶ Stranger Things
@@ -357,7 +357,7 @@
                 <script>
                     // 1. Audio Context
                     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    
+
                     // 2-Octave Frequency Map (C4 to C6)
                     const notes = {
                         'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
@@ -370,7 +370,7 @@
                     };
 
                     const keysData = [
-                        { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' }, 
+                        { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' },
                         { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
                         { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
                         { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
@@ -409,8 +409,8 @@
                         const div = document.createElement('div');
                         const isBlack = key.type === 'black';
 
-                        let layoutClasses = isBlack 
-                            ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black" 
+                        let layoutClasses = isBlack
+                            ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black"
                             : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
 
                         div.className = layoutClasses;
@@ -483,7 +483,7 @@
             </div> -->
 
             <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
-    
+
     <style>
         /* Default (Dark Mode) - Glassy/Cyberpunk */
         .piano-key-white {
@@ -512,7 +512,7 @@
 
     <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
          <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹 (Type to Play)</span>
-         
+
          <div class="flex gap-2 pointer-events-auto">
              <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
                 ▶ Stranger Things
@@ -531,7 +531,7 @@
     <script>
         // 1. Audio Context
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
+
         // 2-Octave Frequency Map (C4 to C6)
         const notes = {
             'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
@@ -548,16 +548,16 @@
         // Top Row: Q -> I (Upper Octave)
         const keyMap = {
             // Lower Octave (C4-B4)
-            'z': 'C4', 's': 'C#4', 'x': 'D4', 'd': 'D#4', 'c': 'E4', 'v': 'F4', 
+            'z': 'C4', 's': 'C#4', 'x': 'D4', 'd': 'D#4', 'c': 'E4', 'v': 'F4',
             'g': 'F#4', 'b': 'G4', 'h': 'G#4', 'n': 'A4', 'j': 'A#4', 'm': 'B4',
             // Upper Octave (C5-C6)
-            'q': 'C5', '2': 'C#5', 'w': 'D5', '3': 'D#5', 'e': 'E5', 'r': 'F5', 
-            '5': 'F#5', 't': 'G5', '6': 'G#5', 'y': 'A5', '7': 'A#5', 'u': 'B5', 
+            'q': 'C5', '2': 'C#5', 'w': 'D5', '3': 'D#5', 'e': 'E5', 'r': 'F5',
+            '5': 'F#5', 't': 'G5', '6': 'G#5', 'y': 'A5', '7': 'A#5', 'u': 'B5',
             'i': 'C6'
         };
 
         const keysData = [
-            { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' }, 
+            { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' },
             { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
             { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
             { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
@@ -596,8 +596,8 @@
             const div = document.createElement('div');
             const isBlack = key.type === 'black';
 
-            let layoutClasses = isBlack 
-                ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black" 
+            let layoutClasses = isBlack
+                ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black"
                 : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
 
             div.className = layoutClasses;
@@ -682,9 +682,9 @@
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col min-h-[140px] md:min-h-0 hover:border-textMuted transition-colors">
                 <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 md:mb-2 flex-none">Publications</span>
-                
+
                 <div class="flex-1 space-y-3 md:space-y-3 overflow-y-auto custom-scroll pr-1">
-                    
+
                     <a href="https://www.sciencedirect.com/science/article/pii/S0022510X25002722?via%3Dihub#:~:text=Data%20analytics%20support%20was%20provided%20by%20Sam%20Selvaraj%20(ZS%20Associates)." target="_blank" class="group block">
                         <div class="flex justify-between items-baseline mb-0.5">
                             <span class="text-[9px] text-textMuted uppercase tracking-wide">Aug 2025</span>
@@ -729,22 +729,22 @@
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0">
                 <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Get in touch</span>
-                
+
                 <form action="#" method="POST" class="flex flex-col gap-2 mt-1">
-                    <!-- {% csrf_token %} -->
-                    <input 
-                        type="email" 
-                        name="email" 
-                        placeholder="Your email..." 
+                     {% csrf_token %}
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Your email..."
                         class="w-full bg-pill border border-border rounded-lg md:rounded-md px-3 py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted"
                         required
                     >
-                    
+
                     <div class="flex gap-2 md:gap-1.5">
-                        <input 
-                            type="text" 
-                            name="message" 
-                            placeholder="Message..." 
+                        <input
+                            type="text"
+                            name="message"
+                            placeholder="Message..."
                             class="w-full bg-pill border border-border rounded-lg md:rounded-md px-3 py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted"
                             required
                         >
@@ -752,11 +752,11 @@
                             Send
                         </button>
                     </div>
-                    <!-- {% if rmsg2 %} -->
+                     {% if rmsg2 %}
                         <p class="text-[10px] text-emerald-500 mt-1">
-                            <!-- {{ rmsg2 }} -->
+                             {{ rmsg2 }}
                         </p>
-                    <!-- {% endif %} -->
+                     {% endif %}
                 </form>
             </div>
 
