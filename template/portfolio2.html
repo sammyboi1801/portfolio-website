@@ -307,13 +307,12 @@
 <!--            </div>-->
 
 
-            <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">
+            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 col-span-1 sm:col-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[160px] md:min-h-0 relative overflow-hidden">
 
-                <div class="flex justify-between items-center mb-2 px-1 pt-1">
+                <div class="flex-none flex justify-between items-center mb-2">
                     <div class="flex items-center gap-2">
                         <div class="relative w-2 h-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </div>
                         <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">KAI Assistant</span>
                     </div>
@@ -322,7 +321,7 @@
                     </button>
                 </div>
 
-                <div id="kai-messages" class="flex-1 overflow-y-auto custom-scroll pr-1 mb-3 flex flex-col gap-2 min-h-[120px] max-h-[120px]">
+                <div id="kai-messages" class="flex-1 min-h-0 overflow-y-auto custom-scroll pr-1 mb-2 flex flex-col gap-2">
                     <div class="self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]">
                         <p class="text-[11px] md:text-[10px] text-textMuted leading-snug">
                             Hi, I'm KAI. Ask me anything about Sam!
@@ -330,9 +329,8 @@
                     </div>
                 </div>
 
-                <form id="kai-chat-form" class="relative flex items-center gap-2">
-                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
+                <form id="kai-chat-form" class="flex-none relative flex items-center gap-2">
+                    {% csrf_token %}
                     <div class="relative w-full">
                         <input
                             id="kai-input"
@@ -385,7 +383,7 @@
                             // 1. Show User Message
                             addMessage(query, 'user');
                             input.value = '';
-                            input.disabled = true; // Disable input while loading
+                            input.disabled = true; 
                             submitBtn.disabled = true;
 
                             // 2. Show Loading State
