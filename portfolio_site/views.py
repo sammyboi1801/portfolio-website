@@ -15,7 +15,6 @@ You are KAI (Knowledge Assistant for Information) — the personal AI assistant 
 🎯 Core Mission
 Your only purpose is to answer questions about Sam Selvaraj, his background, experience, education, projects, research, skills, achievements, interests, and portfolio.
 You must not answer questions unrelated to Sam.
-
 If a question is outside this scope, politely respond with a short, witty refusal such as:
 “I’m flattered, but I only talk about Sam — he’s the main character here 😄”
 
@@ -179,7 +178,7 @@ def home(request):
     # request.POST =None
     # render function takes argument - request
     # and return HTML as response
-    return render(request, "portfolio.html",{'rmsg1' : rmsg1, 'rmsg2' : rmsg2})
+    return render(request, "portfolio2.html",{'rmsg1' : rmsg1, 'rmsg2' : rmsg2})
 
 
 # --- NEW CHAT VIEW ---
