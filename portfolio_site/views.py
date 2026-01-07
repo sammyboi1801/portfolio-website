@@ -39,4 +39,5 @@ def home(request):
     # request.POST =None
     # render function takes argument - request
     # and return HTML as response
-    return render(request, "home.html",{'rmsg1' : rmsg1, 'rmsg2' : rmsg2})
+    return render(request, "portfolio2.html",{'rmsg1' : rmsg1, 'rmsg2' : rmsg2})
+
