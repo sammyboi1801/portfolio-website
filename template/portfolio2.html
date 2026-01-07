@@ -265,47 +265,174 @@
                 </div>
             </div>
 
-            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">
+<!--            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">-->
 
-                <div class="flex justify-between items-center mb-2">
+<!--                <div class="flex justify-between items-center mb-2">-->
+<!--                    <div class="flex items-center gap-2">-->
+<!--                        <div class="relative w-2 h-2">-->
+<!--                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>-->
+<!--                            &lt;!&ndash; <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span> &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">KAI Assistant</span>-->
+<!--                    </div>-->
+<!--                    </div>-->
+
+<!--                <div id="kai-messages" class="flex-1 overflow-y-auto custom-scroll pr-1 mb-3 flex flex-col gap-2 min-h-[40px]">-->
+<!--                    <div class="self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]">-->
+<!--                        <p class="text-[11px] md:text-[10px] text-textMuted leading-snug">-->
+<!--                            Hi, I'm KAI. Ask me anything about Sam!-->
+<!--                        </p>-->
+<!--                    </div>-->
+
+<!--                    </div>-->
+
+<!--                <form id="kai-chat-form" method="POST" action="/api/kai-chat/" class="relative flex items-center gap-2">-->
+<!--                     {% csrf_token %}-->
+<!--                    <div class="relative w-full">-->
+<!--                        <input-->
+<!--                            type="text"-->
+<!--                            name="user_query"-->
+<!--                            placeholder="Type a question..."-->
+<!--                            class="w-full bg-pill border border-border rounded-lg md:rounded-md pl-3 pr-9 py-2 md:py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted transition-colors"-->
+<!--                            autocomplete="off"-->
+<!--                            required-->
+<!--                        >-->
+<!--                        <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 bg-textMain text-bg p-1 rounded hover:opacity-80 transition-opacity">-->
+<!--                            <svg class="w-3 h-3 md:w-2.5 md:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>-->
+<!--                            </svg>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+
+
+            <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[120px] md:min-h-0 relative overflow-hidden">
+
+                <div class="flex justify-between items-center mb-2 px-1 pt-1">
                     <div class="flex items-center gap-2">
                         <div class="relative w-2 h-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                            <!-- <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span> -->
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </div>
                         <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">KAI Assistant</span>
                     </div>
-                    </div>
+                    <button onclick="document.getElementById('kai-messages').innerHTML = ''; addMessage('Hi, I\'m KAI. Ask me anything about Sam!', 'ai');" class="text-[9px] text-textMuted hover:text-emerald-500 transition-colors" title="Reset Chat">
+                        ↺
+                    </button>
+                </div>
 
-                <div id="kai-messages" class="flex-1 overflow-y-auto custom-scroll pr-1 mb-3 flex flex-col gap-2 min-h-[40px]">
+                <div id="kai-messages" class="flex-1 overflow-y-auto custom-scroll pr-1 mb-3 flex flex-col gap-2 min-h-[120px] max-h-[120px]">
                     <div class="self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]">
                         <p class="text-[11px] md:text-[10px] text-textMuted leading-snug">
                             Hi, I'm KAI. Ask me anything about Sam!
                         </p>
                     </div>
+                </div>
 
-                    </div>
+                <form id="kai-chat-form" class="relative flex items-center gap-2">
+                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-                <form id="kai-chat-form" method="POST" action="/api/kai-chat/" class="relative flex items-center gap-2">
-                     {% csrf_token %}
                     <div class="relative w-full">
                         <input
+                            id="kai-input"
                             type="text"
                             name="user_query"
-                            placeholder="Type a question..."
+                            placeholder="Ask about my projects..."
                             class="w-full bg-pill border border-border rounded-lg md:rounded-md pl-3 pr-9 py-2 md:py-1.5 text-xs md:text-[10px] text-textMain focus:outline-none focus:border-textMuted placeholder-textMuted transition-colors"
                             autocomplete="off"
                             required
                         >
-                        <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 bg-textMain text-bg p-1 rounded hover:opacity-80 transition-opacity">
+                        <button type="submit" id="kai-submit" class="absolute right-1 top-1/2 -translate-y-1/2 bg-textMain text-bg p-1 rounded hover:opacity-80 transition-opacity disabled:opacity-50">
                             <svg class="w-3 h-3 md:w-2.5 md:h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
                             </svg>
                         </button>
                     </div>
                 </form>
-            </div>
 
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.getElementById('kai-chat-form');
+                        const input = document.getElementById('kai-input');
+                        const messagesContainer = document.getElementById('kai-messages');
+                        const submitBtn = document.getElementById('kai-submit');
+
+                        // Helper to add messages
+                        window.addMessage = function(text, sender) {
+                            const div = document.createElement('div');
+                            const p = document.createElement('p');
+                            p.className = "text-[11px] md:text-[10px] leading-snug " + (sender === 'user' ? "text-emerald-500" : "text-textMuted");
+                            p.innerText = text;
+
+                            div.className = sender === 'user'
+                                ? "self-end bg-emerald-500/10 border border-emerald-500/20 rounded-lg rounded-tr-none px-3 py-2 max-w-[90%]"
+                                : "self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]";
+
+                            div.appendChild(p);
+                            messagesContainer.appendChild(div);
+
+                            // Auto scroll to bottom
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        }
+
+                        form.addEventListener('submit', async function(e) {
+                            e.preventDefault();
+
+                            const query = input.value.trim();
+                            if (!query) return;
+
+                            // 1. Show User Message
+                            addMessage(query, 'user');
+                            input.value = '';
+                            input.disabled = true; // Disable input while loading
+                            submitBtn.disabled = true;
+
+                            // 2. Show Loading State
+                            const loadingDiv = document.createElement('div');
+                            loadingDiv.id = "kai-loading";
+                            loadingDiv.className = "self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2";
+                            loadingDiv.innerHTML = '<span class="animate-pulse text-[10px] text-textMuted">...</span>';
+                            messagesContainer.appendChild(loadingDiv);
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                            try {
+                                // 3. Send to Backend
+                                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                                const response = await fetch('/api/kai-chat/', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': csrfToken
+                                    },
+                                    body: JSON.stringify({ user_query: query })
+                                });
+
+                                const data = await response.json();
+
+                                // 4. Remove Loading & Show Response
+                                loadingDiv.remove();
+
+                                if (data.status === 'success') {
+                                    addMessage(data.response, 'ai');
+                                } else {
+                                    addMessage("Sorry, I encountered an error.", 'ai');
+                                }
+
+                            } catch (error) {
+                                document.getElementById('kai-loading')?.remove();
+                                addMessage("Network error. Please try again.", 'ai');
+                                console.error('Error:', error);
+                            } finally {
+                                input.disabled = false;
+                                submitBtn.disabled = false;
+                                input.focus();
+                            }
+                        });
+                    });
+                </script>
+            </div>
 
 
             <!-- <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
@@ -762,7 +889,7 @@
             </div>
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-center hover:border-textMuted transition-colors min-h-[140px] md:min-h-0 font-mono text-xs md:text-[10px] overflow-hidden relative" id="terminal-card">
-    
+
                 <div class="absolute top-3 left-4 flex gap-1.5 opacity-50">
                     <div class="w-2 h-2 rounded-full bg-red-500"></div>
                     <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
@@ -786,7 +913,7 @@
                             "git push origin master",
                             "Deploying to HuggingFace..."
                         ];
-                        
+
                         let phraseIndex = 0;
                         let charIndex = 0;
                         let isDeleting = false;
@@ -794,7 +921,7 @@
 
                         function type() {
                             const currentPhrase = phrases[phraseIndex];
-                            
+
                             if (isDeleting) {
                                 textElement.innerText = currentPhrase.substring(0, charIndex - 1);
                                 charIndex--;
@@ -856,7 +983,7 @@
             </div>
 
         </main>
-        
+
         <footer class="flex-none flex justify-between text-[10px] md:text-[9px] text-textMuted px-1 mt-4 md:mt-0">
             <p>© 2026 Sam Selvaraj</p>
             <a href="https://ff-widgets.framer.website/" target="_blank" class="hover:text-textMain transition-colors">
@@ -868,7 +995,7 @@
 
     <script>
         // Track state to prevent unnecessary DOM updates every second
-        let isDaytimeState = null; 
+        let isDaytimeState = null;
 
         // Clock (Fixed to Boston Time with Day/Night Animation)
         function updateClock() {
@@ -903,7 +1030,7 @@
             if (isDaytimeState !== currentIsDaytime) {
                 isDaytimeState = currentIsDaytime;
                 const iconContainer = document.getElementById('time-icon-container');
-                
+
                 if (currentIsDaytime) {
                     // Sun Icon rotating slowly
                     iconContainer.innerHTML = `
@@ -921,7 +1048,7 @@
                 }
             }
         }
-        
+
         setInterval(updateClock, 1000);
         updateClock(); // Initial call
 
