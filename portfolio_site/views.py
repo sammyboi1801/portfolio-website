@@ -184,6 +184,7 @@ def home(request):
 # --- NEW CHAT VIEW ---
 # Make sure to add path('api/kai-chat/', views.kai_chat, name='kai_chat') in urls.py
 # --- KAI CHAT VIEW ---
+# --- KAI CHAT VIEW ---
 def kai_chat(request):
     if request.method == 'POST':
         try:
@@ -204,27 +205,18 @@ def kai_chat(request):
                 return JsonResponse({'status': 'error', 'response': 'Please ask a question.'})
 
             # 4. Call Gemini API
-            # Switched to 'gemini-pro' (Stable version)
-            try:
-                model = genai.GenerativeModel('gemini-pro')
-                prompt = f"{SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
-                response = model.generate_content(prompt)
-                ai_text = response.text if response.text else "I'm thinking..."
+            # Updated to use the model available in your list: 'gemini-2.5-flash'
+            model = genai.GenerativeModel('gemini-2.5-flash')
 
-                return JsonResponse({'status': 'success', 'response': ai_text})
+            prompt = f"{SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
+            response = model.generate_content(prompt)
 
-            except Exception as model_error:
-                # Debugging: Print available models if the name is wrong
-                print(f"Model Error: {model_error}")
-                print("Listing available models:")
-                for m in genai.list_models():
-                    if 'generateContent' in m.supported_generation_methods:
-                        print(m.name)
+            ai_text = response.text if response.text else "I'm thinking..."
 
-                return JsonResponse(
-                    {'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
+            return JsonResponse({'status': 'success', 'response': ai_text})
 
         except Exception as e:
+            # Debugging logs
             print(f"------------ KAI CHAT ERROR ------------")
             print(e)
             print(f"----------------------------------------")
