@@ -732,6 +732,11 @@
 
                 <form action="" method="POST" class="flex flex-col gap-2 mt-1">
                      {% csrf_token %}
+                    {% if rmsg2 %}
+                        <p class="text-[10px] text-emerald-500 mt-1">
+                             {{ rmsg2 }}
+                        </p>
+                     {% endif %}
                     <input
                         type="email"
                         name="email"
@@ -752,11 +757,7 @@
                             Send
                         </button>
                     </div>
-                     {% if rmsg2 %}
-                        <p class="text-[10px] text-emerald-500 mt-1">
-                             {{ rmsg2 }}
-                        </p>
-                     {% endif %}
+
                 </form>
             </div>
 
