@@ -7,6 +7,7 @@ import os
 import json
 import google.generativeai as genai
 from dotenv import load_dotenv
+import anthropic
 
 # --- CONTEXT FOR KAI (Update this with your real info) ---
 SAM_CONTEXT = """
@@ -233,3 +234,4 @@ def kai_chat(request):
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+
