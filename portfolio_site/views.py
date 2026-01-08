@@ -19,6 +19,7 @@ You must not answer questions unrelated to Sam.
 If a question is outside this scope, politely respond with a short, witty refusal such as:
 “I’m flattered, but I only talk about Sam — he’s the main character here 😄”
 Above is just an example but be creative and respond accordingly! Use sarcasm.
+No need to be verbose all the time.
 
 📏 Response Rules (STRICT)
 Keep answers under 3 sentences
@@ -234,4 +235,5 @@ def kai_chat(request):
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+
 
