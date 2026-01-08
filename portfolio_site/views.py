@@ -17,6 +17,7 @@ Your only purpose is to answer questions about Sam Selvaraj, his background, exp
 You must not answer questions unrelated to Sam.
 If a question is outside this scope, politely respond with a short, witty refusal such as:
 “I’m flattered, but I only talk about Sam — he’s the main character here 😄”
+Above is just an example but be creative and respond accordingly! Use sarcasm.
 
 📏 Response Rules (STRICT)
 Keep answers under 3 sentences
@@ -43,7 +44,7 @@ Model: Gemini
 👤 Profile Summary (Authoritative Context)
 Name: Sam Selvaraj
 Location: Boston, MA
-Role: Master’s Student in Computer Science in Northeastern Univeresity currently
+Role: Master’s Student in Computer Science in Northeastern University currently
 Website: https://www.samselva.xyz
 Email: samselvaraj1801@gmail.com
 
@@ -184,18 +185,17 @@ def home(request):
 # --- NEW CHAT VIEW ---
 # Make sure to add path('api/kai-chat/', views.kai_chat, name='kai_chat') in urls.py
 # --- KAI CHAT VIEW ---
-# --- KAI CHAT VIEW ---
 def kai_chat(request):
     if request.method == 'POST':
         try:
             # 1. Check API Key
-            api_key = os.getenv("GEMINI_API_KEY")
+            api_key = os.getenv("ANTHROPIC_API_KEY")
             if not api_key:
-                print("Error: GEMINI_API_KEY not found in .env file")
+                print("Error: ANTHROPIC_API_KEY not found in .env file")
                 return JsonResponse({'status': 'error', 'response': "My brain is missing (API Key not found)."})
 
-            # 2. Configure Gemini
-            genai.configure(api_key=api_key)
+            # 2. Initialize Client
+            client = anthropic.Anthropic(api_key=api_key)
 
             # 3. Parse User Input
             data = json.loads(request.body)
@@ -204,14 +204,24 @@ def kai_chat(request):
             if not user_query:
                 return JsonResponse({'status': 'error', 'response': 'Please ask a question.'})
 
-            # 4. Call Gemini API
-            # Updated to use the model available in your list: 'gemini-2.5-flash'
-            model = genai.GenerativeModel('gemini-2.5-flash')
+            # 4. Call Claude API
+            # 'claude-3-haiku-20240307' is the fastest/cheapest (like Gemini Flash)
+            # Use 'claude-3-5-sonnet-20240620' for higher intelligence
+            message = client.messages.create(
+                model="claude-3-haiku-20240307",
+                max_tokens=300,
+                temperature=0.7,
+                system=SAM_CONTEXT, # Context goes here in Claude
+                messages=[
+                    {
+                        "role": "user",
+                        "content": user_query
+                    }
+                ]
+            )
 
-            prompt = f"{SAM_CONTEXT}\n\nUser Question: {user_query}\n\nAnswer:"
-            response = model.generate_content(prompt)
-
-            ai_text = response.text if response.text else "I'm thinking..."
+            # 5. Extract Text
+            ai_text = message.content[0].text
 
             return JsonResponse({'status': 'success', 'response': ai_text})
 
@@ -223,4 +233,3 @@ def kai_chat(request):
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
-
