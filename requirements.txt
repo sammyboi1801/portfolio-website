@@ -1,11 +1,11 @@
-﻿asgiref==3.7.2
+asgiref==3.7.2
 Django==4.2.1
 dnspython==2.3.0
 email-validator==2.0.0.post2
 idna==3.4
 python-dotenv==1.0.0
 sqlparse==0.4.4
-typing-extensions==4.6.3
+typing-extensions>=4.12.2
 tzdata==2023.3
 google-generativeai
 anthropic
