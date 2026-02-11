@@ -54,6 +54,59 @@
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
+
+        /* 1. Hide default cursor on devices that have a mouse */
+        @media (hover: hover) and (pointer: fine) {
+            body, a, button, input, textarea {
+                cursor: none !important;
+            }
+        }
+    
+        /* 2. Cursor Styles */
+        #cursor-dot, #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    
+        /* The center dot */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-main);
+            transition: background-color 0.3s ease;
+        }
+    
+        /* The lagging ring */
+        #cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--text-muted);
+            opacity: 0.6;
+            transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+    
+        /* 3. Hover State (Active) */
+        body.hovering #cursor-ring {
+            width: 50px;
+            height: 50px;
+            border-color: #10b981; /* Emerald-500 to match your theme */
+            background-color: rgba(16, 185, 129, 0.05);
+            opacity: 1;
+        }
+        
+        body.hovering #cursor-dot {
+            background-color: #10b981;
+        }
+    
+        /* Hide on mobile/touch to prevent glitches */
+        @media (hover: none) {
+            #cursor-dot, #cursor-ring { display: none; }
+        }
     </style>
 
     <script>
@@ -991,6 +1044,67 @@
 
     </div>
 
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dot = document.getElementById('cursor-dot');
+            const ring = document.getElementById('cursor-ring');
+            
+            // Current mouse position
+            let mouseX = -100;
+            let mouseY = -100;
+            
+            // Ring position (for the lag effect)
+            let ringX = -100;
+            let ringY = -100;
+            
+            // 1. Track Mouse Movement
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Move dot instantly
+                dot.style.left = `${mouseX}px`;
+                dot.style.top = `${mouseY}px`;
+            });
+    
+            // 2. Animate Ring (The "Lag" Effect)
+            function animateRing() {
+                // Linear Interpolation (Lerp) for smoothness
+                // The 0.15 controls the "heaviness" of the ring. Lower = slower.
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                
+                ring.style.left = `${ringX}px`;
+                ring.style.top = `${ringY}px`;
+                
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+    
+            // 3. Add Hover Effects to interactive elements
+            const interactables = document.querySelectorAll('a, button, input, textarea, .cursor-pointer');
+            
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+    
+            // Re-run listener attachment if DOM changes (optional, useful for dynamic content)
+            const observer = new MutationObserver(() => {
+                const newInteractables = document.querySelectorAll('a, button, input, textarea, .cursor-pointer');
+                newInteractables.forEach(el => {
+                    el.removeEventListener('mouseenter', () => document.body.classList.add('hovering')); // Clean up to avoid dupes
+                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
+
     <script>
         // Track state to prevent unnecessary DOM updates every second
         let isDaytimeState = null;
@@ -1069,3 +1183,4 @@
     </script>
 </body>
 </html>
+
