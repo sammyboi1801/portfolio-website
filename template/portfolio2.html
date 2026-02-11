@@ -419,7 +419,7 @@
                         const input = document.getElementById('kai-input');
                         const messagesContainer = document.getElementById('kai-messages');
                         const submitBtn = document.getElementById('kai-submit');
-
+                        let chatHistory = [];
                         // Helper to add messages
                         window.addMessage = function(text, sender) {
                             const div = document.createElement('div');
@@ -440,48 +440,51 @@
 
                         form.addEventListener('submit', async function(e) {
                             e.preventDefault();
-
+                        
                             const query = input.value.trim();
                             if (!query) return;
-
-                            // 1. Show User Message
+                        
                             addMessage(query, 'user');
+                            chatHistory.push({ role: "user", content: query });
+                        
                             input.value = '';
                             input.disabled = true; 
                             submitBtn.disabled = true;
 
-                            // 2. Show Loading State
                             const loadingDiv = document.createElement('div');
                             loadingDiv.id = "kai-loading";
                             loadingDiv.className = "self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2";
                             loadingDiv.innerHTML = '<span class="animate-pulse text-[10px] text-textMuted">...</span>';
                             messagesContainer.appendChild(loadingDiv);
                             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
+                        
                             try {
-                                // 3. Send to Backend
                                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
+                        
                                 const response = await fetch('/api/kai-chat/', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
                                         'X-CSRFToken': csrfToken
                                     },
-                                    body: JSON.stringify({ user_query: query })
+                                    body: JSON.stringify({ 
+                                        user_query: query,
+                                        chat_history: chatHistory 
+                                    })
                                 });
-
+                        
                                 const data = await response.json();
 
-                                // 4. Remove Loading & Show Response
                                 loadingDiv.remove();
-
+                        
                                 if (data.status === 'success') {
                                     addMessage(data.response, 'ai');
+                                    chatHistory.push({ role: "assistant", content: data.response });
                                 } else {
                                     addMessage("Sorry, I encountered an error.", 'ai');
+                                    chatHistory.pop(); 
                                 }
-
+                        
                             } catch (error) {
                                 document.getElementById('kai-loading')?.remove();
                                 addMessage("Network error. Please try again.", 'ai');
@@ -1194,6 +1197,7 @@
     </script>
 </body>
 </html>
+
 
 
 
