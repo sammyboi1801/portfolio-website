@@ -247,13 +247,6 @@ def kai_chat(request):
             
     return JsonResponse({'status': 'error', 'response': 'Invalid request method'})
 
-        except Exception as e:
-            print(f"------------ KAI CHAT ERROR ------------")
-            print(e)
-            print(f"----------------------------------------")
-            return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 
 
