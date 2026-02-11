@@ -380,7 +380,7 @@
                         </div>
                         <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">KAI Assistant</span>
                     </div>
-                    <button onclick="document.getElementById('kai-messages').innerHTML = ''; addMessage('Hi, I\'m KAI. Ask me anything about Sam!', 'ai');" class="text-[9px] text-textMuted hover:text-emerald-500 transition-colors" title="Reset Chat">
+                    <button id="kai-reset" type="button" class="text-[9px] text-textMuted hover:text-emerald-500 transition-colors" title="Reset Chat">
                         ↺
                     </button>
                 </div>
@@ -419,48 +419,64 @@
                         const input = document.getElementById('kai-input');
                         const messagesContainer = document.getElementById('kai-messages');
                         const submitBtn = document.getElementById('kai-submit');
-                        let chatHistory = [];
+                        const resetBtn = document.getElementById('kai-reset'); // <--- NEW
+                
+                        // Initialize History
+                        let chatHistory = []; 
+                
                         // Helper to add messages
                         window.addMessage = function(text, sender) {
                             const div = document.createElement('div');
                             const p = document.createElement('p');
                             p.className = "text-[11px] md:text-[10px] leading-snug " + (sender === 'user' ? "text-emerald-500" : "text-textMuted");
                             p.innerText = text;
-
+                
                             div.className = sender === 'user'
                                 ? "self-end bg-emerald-500/10 border border-emerald-500/20 rounded-lg rounded-tr-none px-3 py-2 max-w-[90%]"
                                 : "self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2 max-w-[90%]";
-
+                
                             div.appendChild(p);
                             messagesContainer.appendChild(div);
-
-                            // Auto scroll to bottom
                             messagesContainer.scrollTop = messagesContainer.scrollHeight;
                         }
-
+                
+                        // RESET FUNCTIONALITY
+                        resetBtn.addEventListener('click', function() {
+                            chatHistory = []; // 1. Clear memory
+                            messagesContainer.innerHTML = ''; // 2. Clear UI
+                            input.disabled = false;
+                            submitBtn.disabled = false;
+                            addMessage("Hi, I'm KAI. Ask me anything about Sam!", 'ai'); // 3. Reset welcome
+                        });
+                
+                        // CHAT FUNCTIONALITY
                         form.addEventListener('submit', async function(e) {
                             e.preventDefault();
-                        
+                
                             const query = input.value.trim();
                             if (!query) return;
-                        
+                
+                            // 1. Show User Message
                             addMessage(query, 'user');
+                            
+                            // 2. Add to History
                             chatHistory.push({ role: "user", content: query });
-                        
+                
                             input.value = '';
                             input.disabled = true; 
                             submitBtn.disabled = true;
-
+                
+                            // 3. Show Loading State
                             const loadingDiv = document.createElement('div');
                             loadingDiv.id = "kai-loading";
                             loadingDiv.className = "self-start bg-pill border border-border rounded-lg rounded-tl-none px-3 py-2";
                             loadingDiv.innerHTML = '<span class="animate-pulse text-[10px] text-textMuted">...</span>';
                             messagesContainer.appendChild(loadingDiv);
                             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                        
+                
                             try {
                                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                        
+                
                                 const response = await fetch('/api/kai-chat/', {
                                     method: 'POST',
                                     headers: {
@@ -472,19 +488,19 @@
                                         chat_history: chatHistory 
                                     })
                                 });
-                        
+                
                                 const data = await response.json();
-
+                
                                 loadingDiv.remove();
-                        
+                
                                 if (data.status === 'success') {
                                     addMessage(data.response, 'ai');
                                     chatHistory.push({ role: "assistant", content: data.response });
                                 } else {
                                     addMessage("Sorry, I encountered an error.", 'ai');
-                                    chatHistory.pop(); 
+                                    chatHistory.pop(); // Remove failed query from history
                                 }
-                        
+                
                             } catch (error) {
                                 document.getElementById('kai-loading')?.remove();
                                 addMessage("Network error. Please try again.", 'ai');
@@ -1197,6 +1213,7 @@
     </script>
 </body>
 </html>
+
 
 
 
