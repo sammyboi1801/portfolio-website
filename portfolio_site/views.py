@@ -62,6 +62,11 @@ Aug 2020 – Aug 2024
 GPA: 3.66 / 4.0
 Honors: Artificial Intelligence & Machine Learning
 
+🧑‍🏫 Academic Roles
+
+Graduate Teaching Assistant — DS 4440: Practical Neural Networks
+Mentors students in neural networks and transformer-based architectures
+
 💼 Experience
 ZS Associates — Decision Analyst Associate
 Jan 2024 – Jul 2025 | Bangalore
@@ -80,10 +85,21 @@ Reduced site load times from 10s → <3s
 Built responsive websites using HTML, CSS, JS, WordPress
 
 🚀 Projects
+SentinelAI
+Terminal-based AI agent powered by LLM-driven control loops
+Hybrid vector embeddings + SQL memory
+Tool invocation: file ops, Google APIs, browser, maps, vision
+Human-in-the-loop safety gating
+GitHub: https://github.com/sammyboi1801/SentinelAI
+
 OrchestrAI
 Multi-agent agentic AI system using LangGraph, LangChain, HITL RAG
 Tasks: scheduling, email automation, retrieval, web queries
 GitHub: https://github.com/sammyboi1801/OrchestrAI
+
+Diffusion vs Autoregressive Models for NMT
+Implemented and compared diffusion-based and autoregressive neural architectures for machine translation
+Tech: PyTorch, Transformers, BLEU evaluation
 
 Intelligent System for Self-Driving Cars
 Real-time lane, pothole, and object detection
@@ -114,6 +130,10 @@ IEEE Conference | May 2025
 
 Contributor — Journal of the Neurological Sciences
 Study on glucocorticoid use in myasthenia gravis patients
+
+Contributor — Hospitalization Outcomes After Efgartigimod Initiation in Patients With Myasthenia Gravis
+AAN 2025 Poster
+Real-world evidence study on hospitalization outcomes in MG patients
 
 🧠 Skills
 Languages: Python, Java, C, SQL, R, JavaScript
@@ -183,57 +203,57 @@ def home(request):
     # and return HTML as response
     return render(request, "portfolio2.html",{'rmsg1' : rmsg1, 'rmsg2' : rmsg2})
 
-
-# --- NEW CHAT VIEW ---
-# Make sure to add path('api/kai-chat/', views.kai_chat, name='kai_chat') in urls.py
-# --- KAI CHAT VIEW ---
 def kai_chat(request):
     if request.method == 'POST':
         try:
-            # 1. Check API Key
             api_key = os.getenv("ANTHROPIC_API_KEY")
             if not api_key:
                 print("Error: ANTHROPIC_API_KEY not found in .env file")
                 return JsonResponse({'status': 'error', 'response': "My brain is missing (API Key not found)."})
 
-            # 2. Initialize Client
             client = anthropic.Anthropic(api_key=api_key)
 
-            # 3. Parse User Input
             data = json.loads(request.body)
             user_query = data.get('user_query', '')
+
+            chat_history = data.get('chat_history', [])
 
             if not user_query:
                 return JsonResponse({'status': 'error', 'response': 'Please ask a question.'})
 
-            # 4. Call Claude API
-            # 'claude-3-haiku-20240307' is the fastest/cheapest (like Gemini Flash)
-            # Use 'claude-3-5-sonnet-20240620' for higher intelligence
+            messages_payload = chat_history.copy()
+
+            if not messages_payload or messages_payload[-1]['content'] != user_query:
+                 messages_payload.append({
+                    "role": "user",
+                    "content": user_query
+                })
+
             message = client.messages.create(
                 model="claude-3-haiku-20240307",
                 max_tokens=300,
                 temperature=0.7,
-                system=SAM_CONTEXT, # Context goes here in Claude
-                messages=[
-                    {
-                        "role": "user",
-                        "content": user_query
-                    }
-                ]
+                system=SAM_CONTEXT,
+                messages=messages_payload
             )
 
-            # 5. Extract Text
             ai_text = message.content[0].text
 
             return JsonResponse({'status': 'success', 'response': ai_text})
 
         except Exception as e:
-            # Debugging logs
+            print(f"Error in kai_chat: {e}")
+            return JsonResponse({'status': 'error', 'response': "I encountered an error processing your request."})
+            
+    return JsonResponse({'status': 'error', 'response': 'Invalid request method'})
+
+        except Exception as e:
             print(f"------------ KAI CHAT ERROR ------------")
             print(e)
             print(f"----------------------------------------")
             return JsonResponse({'status': 'error', 'response': "I'm having trouble connecting to my brain right now."})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+
 
 
