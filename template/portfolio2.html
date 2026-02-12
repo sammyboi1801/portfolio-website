@@ -62,17 +62,20 @@
             }
         }
     
-        /* 2. Cursor Styles */
+        /* Optimized Cursor Styles */
         #cursor-dot, #cursor-ring {
             position: fixed;
             top: 0;
             left: 0;
-            transform: translate(-50%, -50%);
+            /* Start off-screen */
+            transform: translate3d(-100px, -100px, 0); 
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
+            /* This creates a new layer on the GPU */
+            will-change: transform; 
         }
-    
+
         /* The center dot */
         #cursor-dot {
             width: 8px;
@@ -80,32 +83,33 @@
             background-color: var(--text-main);
             transition: background-color 0.3s ease;
         }
-    
+
         /* The lagging ring */
         #cursor-ring {
             width: 32px;
             height: 32px;
             border: 1px solid var(--text-muted);
             opacity: 0.6;
+            /* Only transition colors/size, NOT position */
             transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
-    
-        /* 3. Hover State (Active) */
+
+        /* Hover State */
         body.hovering #cursor-ring {
             width: 50px;
             height: 50px;
-            border-color: #10b981; /* Emerald-500 to match your theme */
+            border-color: #10b981;
             background-color: rgba(16, 185, 129, 0.05);
             opacity: 1;
         }
-        
+
         body.hovering #cursor-dot {
             background-color: #10b981;
         }
-    
-        /* Hide on mobile/touch to prevent glitches */
+
+        /* Hide on mobile completely to save battery/performance */
         @media (hover: none) {
-            #cursor-dot, #cursor-ring { display: none; }
+            #cursor-dot, #cursor-ring { display: none !important; }
         }
     </style>
 
@@ -1392,59 +1396,57 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Performance Check: Don't run this on touch devices
+            if (window.matchMedia("(hover: none)").matches) return;
+
             const dot = document.getElementById('cursor-dot');
             const ring = document.getElementById('cursor-ring');
             
-            // Current mouse position
+            // Initial positions off-screen
             let mouseX = -100;
             let mouseY = -100;
-            
-            // Ring position (for the lag effect)
             let ringX = -100;
             let ringY = -100;
             
-            // 1. Track Mouse Movement
+            // 1. Track Mouse (Low cost)
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
                 
-                // Move dot instantly
-                dot.style.left = `${mouseX}px`;
-                dot.style.top = `${mouseY}px`;
+                // Move dot instantly using GPU transform
+                // We append translate(-50%, -50%) to keep it centered
+                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
             });
-    
+
             // 2. Animate Ring (The "Lag" Effect)
             function animateRing() {
                 // Linear Interpolation (Lerp) for smoothness
-                // The 0.15 controls the "heaviness" of the ring. Lower = slower.
+                // 0.15 is the speed. Lower = slower lag.
                 ringX += (mouseX - ringX) * 0.15;
                 ringY += (mouseY - ringY) * 0.15;
                 
-                ring.style.left = `${ringX}px`;
-                ring.style.top = `${ringY}px`;
+                // Move ring using GPU transform
+                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
                 
                 requestAnimationFrame(animateRing);
             }
-            animateRing();
-    
-            // 3. Add Hover Effects to interactive elements
-            const interactables = document.querySelectorAll('a, button, input, textarea, .cursor-pointer');
             
-            interactables.forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            // Start the loop
+            animateRing();
+
+            // 3. Hover Effects
+            // Using event delegation is more performant than attaching listeners to every element
+            document.body.addEventListener('mouseover', (e) => {
+                if (e.target.closest('a, button, input, textarea, .cursor-pointer')) {
+                    document.body.classList.add('hovering');
+                }
             });
-    
-            // Re-run listener attachment if DOM changes (optional, useful for dynamic content)
-            const observer = new MutationObserver(() => {
-                const newInteractables = document.querySelectorAll('a, button, input, textarea, .cursor-pointer');
-                newInteractables.forEach(el => {
-                    el.removeEventListener('mouseenter', () => document.body.classList.add('hovering')); // Clean up to avoid dupes
-                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-                });
+
+            document.body.addEventListener('mouseout', (e) => {
+                if (e.target.closest('a, button, input, textarea, .cursor-pointer')) {
+                    document.body.classList.remove('hovering');
+                }
             });
-            observer.observe(document.body, { childList: true, subtree: true });
         });
     </script>
     <script>
