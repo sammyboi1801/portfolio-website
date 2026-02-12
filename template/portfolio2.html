@@ -76,6 +76,12 @@
             will-change: transform; 
         }
 
+        /* Make the center dot pop slightly when clicking */
+        body:active #cursor-dot {
+            transform: translate3d(var(--x), var(--y), 0) translate(-50%, -50%) scale(0.5);
+            background-color: #10b981;
+        }
+
         /* The center dot */
         #cursor-dot {
             width: 8px;
@@ -86,23 +92,30 @@
 
         /* The lagging ring */
         #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 32px;
             height: 32px;
             border: 1px solid var(--text-muted);
+            border-radius: 50%;
             opacity: 0.6;
-            /* Only transition colors/size, NOT position */
-            transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform;
+            /* Transition ONLY transform and colors, not width/height */
+            transition: border-color 0.05s ease, background-color 0.05s ease, opacity 0.05s ease;
+            transform: translate3d(-100px, -100px, 0) translate(-50%, -50%) scale(1);
         }
 
-        /* Hover State */
+        /* Hover State using Scale instead of Width/Height */
         body.hovering #cursor-ring {
-            width: 50px;
-            height: 50px;
             border-color: #10b981;
             background-color: rgba(16, 185, 129, 0.05);
             opacity: 1;
+            /* Scale it up by 1.5x instead of changing px size */
+            transform: translate3d(var(--x), var(--y), 0) translate(-50%, -50%) scale(1.5);
         }
-
         body.hovering #cursor-dot {
             background-color: #10b981;
         }
@@ -913,7 +926,7 @@
                     'welding': {
                         title: 'Welding Defect Detection',
                         subtitle: 'Computer Vision • CNNs • Hackathon',
-                        desc: 'The 2nd Prize winning solution at IIT Techfest 2022 (WeldRight). Developed and deployed an XGBoost-based welding defect prediction system on AWS using Godrej Aerospace data, achieving ~96% accuracy.',
+                        desc: 'The 2nd Prize winning solution for IIT Techfest 2022. Used custom CNN architectures to detect microscopic defects in industrial welding x-rays with 96% accuracy.',
                         link: 'https://github.com/sammyboi1801/welding-defect-detection',
                         icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`
                     },
@@ -1396,54 +1409,64 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Performance Check: Don't run this on touch devices
             if (window.matchMedia("(hover: none)").matches) return;
 
             const dot = document.getElementById('cursor-dot');
             const ring = document.getElementById('cursor-ring');
             
-            // Initial positions off-screen
-            let mouseX = -100;
-            let mouseY = -100;
-            let ringX = -100;
-            let ringY = -100;
-            
-            // 1. Track Mouse (Low cost)
+            let mouseX = -100, mouseY = -100;
+            let ringX = -100, ringY = -100;
+            let currentScale = 1;
+            let targetScale = 1;
+            let isMouseDown = false;
+
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
-                
-                // Move dot instantly using GPU transform
-                // We append translate(-50%, -50%) to keep it centered
                 dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
             });
 
-            // 2. Animate Ring (The "Lag" Effect)
-            function animateRing() {
-                // Linear Interpolation (Lerp) for smoothness
-                // 0.15 is the speed. Lower = slower lag.
+            // --- CLICK HANDLERS ---
+            document.addEventListener('mousedown', () => {
+                isMouseDown = true;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+
+            function animate() {
                 ringX += (mouseX - ringX) * 0.15;
                 ringY += (mouseY - ringY) * 0.15;
-                
-                // Move ring using GPU transform
-                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-                
-                requestAnimationFrame(animateRing);
-            }
-            
-            // Start the loop
-            animateRing();
 
-            // 3. Hover Effects
-            // Using event delegation is more performant than attaching listeners to every element
+                // Logic: 
+                // 1. If clicking, shrink (0.8x)
+                // 2. If hovering but not clicking, grow (1.5x)
+                // 3. Otherwise, normal (1x)
+                let finalTarget = targetScale;
+                if (isMouseDown) {
+                    finalTarget = targetScale * 0.7; // Shrink 30% from current state
+                }
+
+                currentScale += (finalTarget - currentScale) * 0.15;
+                
+                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
+                
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // --- HOVER HANDLERS ---
             document.body.addEventListener('mouseover', (e) => {
                 if (e.target.closest('a, button, input, textarea, .cursor-pointer')) {
+                    targetScale = 1.5;
                     document.body.classList.add('hovering');
                 }
             });
 
             document.body.addEventListener('mouseout', (e) => {
                 if (e.target.closest('a, button, input, textarea, .cursor-pointer')) {
+                    targetScale = 1;
                     document.body.classList.remove('hovering');
                 }
             });
@@ -1580,8 +1603,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 
