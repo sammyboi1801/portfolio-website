@@ -203,11 +203,11 @@
             </div> -->
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col justify-between hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
-
+    
                 <div class="flex justify-between items-start">
-                    <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Now Playing</span>
+                    <span id="lastfm-status" class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">Offline</span>
 
-                    <div class="flex items-end gap-[2px] h-3">
+                    <div id="lastfm-equalizer" class="flex items-end gap-[2px] h-3 opacity-0 transition-opacity duration-300">
                         <span class="w-[2px] h-full bg-[#1DB954] animate-[bounce_1s_infinite]"></span>
                         <span class="w-[2px] h-2/3 bg-[#1DB954] animate-[bounce_1.2s_infinite]"></span>
                         <span class="w-[2px] h-full bg-[#1DB954] animate-[bounce_0.8s_infinite]"></span>
@@ -216,15 +216,15 @@
 
                 <div class="flex items-center gap-3 md:gap-2.5 mt-2">
                     <div class="relative w-11 h-11 md:w-10 md:h-10 flex-none bg-pill border border-border rounded-md overflow-hidden group-hover:border-textMuted transition-colors">
-                        <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&h=100&fit=crop" class="w-full h-full object-cover opacity-80" alt="Album Art">
+                        <img id="lastfm-art" src="https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png" class="w-full h-full object-cover opacity-80" alt="Album Art">
                     </div>
 
                     <div class="min-w-0 flex-1 flex flex-col justify-center">
-                        <h3 class="text-sm md:text-xs font-medium text-textMain truncate leading-tight">
-                            Pink + White
+                        <h3 id="lastfm-song" class="text-sm md:text-xs font-medium text-textMain truncate leading-tight">
+                            Not Playing
                         </h3>
-                        <p class="text-xs md:text-[10px] text-textMuted truncate leading-tight mt-0.5">
-                            Frank Ocean
+                        <p id="lastfm-artist" class="text-xs md:text-[10px] text-textMuted truncate leading-tight mt-0.5">
+                            Spotify
                         </p>
                     </div>
                 </div>
@@ -239,93 +239,109 @@
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 row-span-1 sm:row-span-2 md:row-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[220px] md:min-h-0">
                 <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 flex-none">Experience</span>
-                <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-5 md:space-y-4">
-                    <div class="group">
-                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Sept 2025 — May 2027</div>
-                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Master's in CS</h4>
-                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Northeastern University</p>
-                    </div>
-                    <div class="group">
-                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Jan 2024 — July 2025</div>
-                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">ZS Associates</h4>
-                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Decision Analyst Associate</p>
-                    </div>
-                    <div class="group">
-                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2023 — July 2023</div>
-                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Phemesoft Ltd.</h4>
-                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Machine Learning Intern</p>
-                    </div>
-                     <div class="group">
-                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2022 — July 2022</div>
-                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Arcitech</h4>
-                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Web Developer Intern</p>
-                    </div>
-                    <div class="group opacity-60">
-                        <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">2020 — 2024</div>
-                        <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">B.Tech in CE</h4>
-                        <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">NMIMS MPSTME</p>
+                
+                <div class="flex-1 overflow-y-auto custom-scroll pr-2">
+                    <div class="relative border-l border-border ml-3 my-1 space-y-7 pl-6 pb-2">
+                        
+                        <div class="group relative">
+                            <div class="absolute -left-[29px] top-4 w-2.5 h-2.5 rounded-full bg-card border border-textMuted group-hover:border-emerald-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_0_4px_var(--card-bg)]"></div>
+                            
+                            <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Sept 2025 — May 2027</div>
+                            <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Master's in CS</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Northeastern University</p>
+                        </div>
+
+                        <div class="group relative">
+                            <div class="absolute -left-[29px] top-4 w-2.5 h-2.5 rounded-full bg-card border border-textMuted group-hover:border-emerald-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_0_4px_var(--card-bg)]"></div>
+                            
+                            <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">Jan 2024 — July 2025</div>
+                            <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">ZS Associates</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Decision Analyst Associate</p>
+                        </div>
+
+                        <div class="group relative">
+                            <div class="absolute -left-[29px] top-4 w-2.5 h-2.5 rounded-full bg-card border border-textMuted group-hover:border-emerald-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_0_4px_var(--card-bg)]"></div>
+                            
+                            <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2023 — July 2023</div>
+                            <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Phemesoft Ltd.</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Machine Learning Intern</p>
+                        </div>
+
+                        <div class="group relative">
+                            <div class="absolute -left-[29px] top-4 w-2.5 h-2.5 rounded-full bg-card border border-textMuted group-hover:border-emerald-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_0_4px_var(--card-bg)]"></div>
+                            
+                            <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">May 2022 — July 2022</div>
+                            <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">Arcitech</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">Web Developer Intern</p>
+                        </div>
+
+                        <div class="group relative opacity-80">
+                            <div class="absolute -left-[29px] top-4 w-2.5 h-2.5 rounded-full bg-card border border-textMuted group-hover:border-emerald-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_0_4px_var(--card-bg)]"></div>
+                            
+                            <div class="flex justify-between text-[10px] md:text-[9px] text-textMuted mb-0.5">2020 — 2024</div>
+                            <h4 class="text-sm md:text-xs text-textMain group-hover:text-emerald-500 transition-colors">B.Tech in CE</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted mt-0.5 opacity-70">NMIMS MPSTME</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 row-span-1 sm:row-span-2 md:row-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[220px] md:min-h-0">
                 <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 flex-none">Projects</span>
+                
                 <div class="flex-1 overflow-y-auto custom-scroll pr-1 flex flex-col gap-4 md:gap-3">
-                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
-                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
-                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+                    
+                    <div onclick="openProject('sentinel')" class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border group-hover:border-emerald-500/50 transition-colors">
+                            <svg class="w-4 h-4 text-textMuted group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
                         <div class="min-w-0">
-                            <a href="https://github.com/sammyboi1801/SentinelAI" target="_blank">
-                                <h4 class="text-sm md:text-xs text-textMain truncate">SentinelAI</h4>
-                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">An AI that lives in your terminal...</p>
-                            </a>
+                            <h4 class="text-sm md:text-xs text-textMain truncate group-hover:text-emerald-500 transition-colors">SentinelAI</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted truncate">An AI that lives in your terminal...</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
-                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
-                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+
+                    <div onclick="openProject('orchestrai')" class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border group-hover:border-emerald-500/50 transition-colors">
+                            <svg class="w-4 h-4 text-textMuted group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                         </div>
                         <div class="min-w-0">
-                            <a href="https://github.com/sammyboi1801/OrchestrAI" target="_blank">
-                                <h4 class="text-sm md:text-xs text-textMain truncate">OrchestrAI</h4>
-                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">A Multi-Agent System based on LangGraph</p>
-                            </a>
+                            <h4 class="text-sm md:text-xs text-textMain truncate group-hover:text-emerald-500 transition-colors">OrchestrAI</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted truncate">Multi-Agent System based on LangGraph</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
-                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
-                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+
+                    <div onclick="openProject('arm_vs_diff')" class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border group-hover:border-emerald-500/50 transition-colors">
+                            <svg class="w-4 h-4 text-textMuted group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                         </div>
                         <div class="min-w-0">
-                            <a href="https://github.com/NMT-ARM-vs-Diffusion/Diffusion-vs-Auto-regressive-for-NMT" target="_blank">
-                                <h4 class="text-sm md:text-xs text-textMain truncate">ARM vs Diffusion</h4>
-                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">Comparing diffusion vs transformers for NMT</p>
-                            </a>
+                            <h4 class="text-sm md:text-xs text-textMain truncate group-hover:text-emerald-500 transition-colors">ARM vs Diffusion</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted truncate">Comparing models for NMT</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
-                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
-                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+
+                    <div onclick="openProject('welding')" class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border group-hover:border-emerald-500/50 transition-colors">
+                            <svg class="w-4 h-4 text-textMuted group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </div>
                         <div class="min-w-0">
-                            <a href="https://github.com/sammyboi1801/welding-defect-detection" target="_blank">
-                                <h4 class="text-sm md:text-xs text-textMain truncate">Welding Defect Detection</h4>
-                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">2nd Prize solution to IIT Techfest 2022's Weldright Hackathon</p>
-                            </a>
+                            <h4 class="text-sm md:text-xs text-textMain truncate group-hover:text-emerald-500 transition-colors">Welding Defect</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted truncate">2nd Prize IIT Techfest 2022</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
-                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border">
-                            <div class="w-4 h-4 bg-textMuted rounded-full opacity-50"></div>
+
+                    <div onclick="openProject('pingpong')" class="flex items-center gap-3 md:gap-2.5 group cursor-pointer p-1 -ml-1 rounded-lg hover:bg-pill transition-colors">
+                        <div class="w-9 h-9 md:w-8 md:h-8 bg-pill rounded-full flex-none flex items-center justify-center border border-border group-hover:border-emerald-500/50 transition-colors">
+                            <svg class="w-4 h-4 text-textMuted group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                         <div class="min-w-0">
-                            <a href="https://github.com/sammyboi1801/ping-pong-neat-ai" target="_blank">
-                                <h4 class="text-sm md:text-xs text-textMain truncate">Ping Pong AI</h4>
-                                <p class="text-[10px] md:text-[9px] text-textMuted truncate">NEAT algorithm for ping pong</p>
-                            </a>
+                            <h4 class="text-sm md:text-xs text-textMain truncate group-hover:text-emerald-500 transition-colors">Ping Pong AI</h4>
+                            <p class="text-[10px] md:text-[9px] text-textMuted truncate">NEAT algorithm implementation</p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -690,8 +706,123 @@
                 </script>
             </div> -->
 
-            <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
+            <div id="project-modal" class="fixed inset-0 z-[9999] flex items-center justify-center px-4 opacity-0 pointer-events-none transition-all duration-300">
+    
+                <div onclick="closeModal()" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
 
+                <div id="modal-card" class="relative w-full max-w-md bg-[#111111] border border-[#333] rounded-xl shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden">
+                    
+                    <div class="h-8 bg-[#1a1a1a] border-b border-[#333] flex items-center justify-between px-3">
+                        <div class="flex gap-1.5">
+                            <button onclick="closeModal()" class="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition-colors"></button>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-[10px] text-textMuted font-mono uppercase tracking-widest">Project_Details.exe</span>
+                        <div class="w-3"></div> </div>
+
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 id="modal-title" class="text-xl text-textMain font-medium mb-1">Project Name</h2>
+                                <p id="modal-subtitle" class="text-xs text-emerald-500 font-mono">Python • AI • Automation</p>
+                            </div>
+                            <div id="modal-icon" class="w-10 h-10 bg-pill rounded-full flex items-center justify-center border border-border text-textMuted">
+                                </div>
+                        </div>
+
+                        <p id="modal-desc" class="text-xs text-textMuted leading-relaxed mb-6">
+                            Description goes here...
+                        </p>
+
+                        <div class="flex gap-3">
+                            <a id="modal-github" href="#" target="_blank" class="flex-1 flex justify-center items-center gap-2 bg-textMain text-bg py-2 rounded-md text-xs font-medium hover:opacity-90 transition-opacity">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                View Code
+                            </a>
+                            <button onclick="closeModal()" class="px-4 py-2 bg-pill border border-border text-textMuted rounded-md text-xs hover:text-textMain hover:border-textMuted transition-colors">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
+            <script>
+                // 1. PROJECT DATA STORE (Now with Icons!)
+                const projects = {
+                    'sentinel': {
+                        title: 'SentinelAI',
+                        subtitle: 'Python • LangChain • Terminal',
+                        desc: 'A locally hosted autonomous AI agent that lives in your terminal. It can execute system commands, manage files, and automate daily workflows without sending data to the cloud.',
+                        link: 'https://github.com/sammyboi1801/SentinelAI',
+                        icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`
+                    },
+                    'orchestrai': {
+                        title: 'OrchestrAI',
+                        subtitle: 'LangGraph • Multi-Agent • React',
+                        desc: 'A complex multi-agent system where different AI personas (Coder, Reviewer, Manager) collaborate to solve complex programming tasks. Built on the cutting-edge LangGraph framework.',
+                        link: 'https://github.com/sammyboi1801/OrchestrAI',
+                        icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>`
+                    },
+                    'arm_vs_diff': {
+                        title: 'ARM vs Diffusion',
+                        subtitle: 'PyTorch • Research • Transformers',
+                        desc: 'A comparative study analyzing the efficiency and accuracy of Auto-Regressive Models versus Diffusion Models for Neural Machine Translation tasks.',
+                        link: 'https://github.com/NMT-ARM-vs-Diffusion/Diffusion-vs-Auto-regressive-for-NMT',
+                        icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>`
+                    },
+                    'welding': {
+                        title: 'Welding Defect Detection',
+                        subtitle: 'Computer Vision • CNNs • Hackathon',
+                        desc: 'The 2nd Prize winning solution for IIT Techfest 2022. Used custom CNN architectures to detect microscopic defects in industrial welding x-rays with 96% accuracy.',
+                        link: 'https://github.com/sammyboi1801/welding-defect-detection',
+                        icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`
+                    },
+                    'pingpong': {
+                        title: 'Ping Pong AI',
+                        subtitle: 'NEAT Algorithm • Genetic Evo • Python',
+                        desc: 'An AI that learned to play Ping Pong from scratch using the NEAT (NeuroEvolution of Augmenting Topologies) algorithm. It evolves its own neural network structure over generations.',
+                        link: 'https://github.com/sammyboi1801/ping-pong-neat-ai',
+                        icon: `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+                    }
+                };
+
+                // 2. MODAL LOGIC
+                const modal = document.getElementById('project-modal');
+                const modalCard = document.getElementById('modal-card');
+
+                window.openProject = function(id) {
+                    const p = projects[id];
+                    if(!p) return;
+
+                    // Populate Data
+                    document.getElementById('modal-title').innerText = p.title;
+                    document.getElementById('modal-subtitle').innerText = p.subtitle;
+                    document.getElementById('modal-desc').innerText = p.desc;
+                    document.getElementById('modal-github').href = p.link;
+                    
+                    // This line injects the SVG icon into that circle!
+                    document.getElementById('modal-icon').innerHTML = p.icon;
+
+                    // Animate In
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modalCard.classList.remove('scale-95');
+                    modalCard.classList.add('scale-100');
+                }
+
+                window.closeModal = function() {
+                    // Animate Out
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    modalCard.classList.remove('scale-100');
+                    modalCard.classList.add('scale-95');
+                }
+
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeModal();
+                });
+            </script>
     <style>
         /* Default (Dark Mode) - Glassy/Cyberpunk */
         .piano-key-white {
@@ -1134,6 +1265,58 @@
             observer.observe(document.body, { childList: true, subtree: true });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = 'sammyboi1801'; // Your Last.fm username
+            const apiKey = '365ada7fbb4f084bbfdb84259f29a1c3'; // Your Last.fm API Key
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`;
+
+            // Elements
+            const artEl = document.getElementById('lastfm-art');
+            const songEl = document.getElementById('lastfm-song');
+            const artistEl = document.getElementById('lastfm-artist');
+            const statusEl = document.getElementById('lastfm-status');
+            const equalizerEl = document.getElementById('lastfm-equalizer');
+
+            async function fetchTunes() {
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    const track = data.recenttracks.track[0];
+
+                    // Check if currently playing
+                    const isPlaying = track['@attr'] && track['@attr'].nowplaying === 'true';
+
+                    // Update Image (Use a default placeholder if no art is found)
+                    const image = track.image[2]['#text'] || 'https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png';
+                    artEl.src = image;
+
+                    // Update Text
+                    songEl.innerText = track.name;
+                    artistEl.innerText = track.artist['#text'];
+
+                    // Update Status & Equalizer
+                    if (isPlaying) {
+                        statusEl.innerText = "Now Playing";
+                        statusEl.classList.add('text-emerald-500'); // Green text
+                        equalizerEl.classList.remove('opacity-0'); // Show equalizer
+                    } else {
+                        statusEl.innerText = "Last Played";
+                        statusEl.classList.remove('text-emerald-500');
+                        equalizerEl.classList.add('opacity-0'); // Hide equalizer
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching Last.fm data:', error);
+                    statusEl.innerText = "Offline";
+                }
+            }
+
+            // Fetch immediately, then update every 15 seconds
+            fetchTunes();
+            setInterval(fetchTunes, 15000);
+        });
+    </script>
 
     <script>
         // Track state to prevent unnecessary DOM updates every second
@@ -1213,7 +1396,6 @@
     </script>
 </body>
 </html>
-
 
 
 
