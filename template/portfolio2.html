@@ -230,11 +230,142 @@
                 </div>
             </div>
 
-            <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col hover:border-textMuted transition-colors min-h-[140px] md:min-h-0">
-                <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium mb-3 md:mb-2">About</span>
-                <p class="text-xs md:text-[10px] text-textMuted leading-relaxed">
-                    I'm Sam, a Master's student in Boston. I have a passion for crafting digital experiences that blend creativity and technology.
-                </p>
+            <div id="about-card" class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col hover:border-textMuted transition-colors min-h-[140px] md:min-h-0 relative overflow-hidden group">
+    
+                <canvas id="neural-canvas" class="absolute inset-0 z-0 opacity-30 pointer-events-none"></canvas>
+
+                <div class="relative z-10 pointer-events-none">
+                    <div class="flex justify-between items-start mb-3 md:mb-2">
+                        <span class="text-[10px] md:text-[9px] text-textMuted uppercase tracking-widest font-medium">About</span>
+                        <div class="flex items-center gap-1.5 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                            <span class="relative flex h-1.5 w-1.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                            </span>
+                            <span class="text-[9px] text-emerald-500 font-mono">SYS_ONLINE</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-xs md:text-[10px] text-textMain leading-relaxed drop-shadow-sm">
+                        I'm Sam, a Master's student in Boston. I have a passion for crafting digital experiences that blend creativity and technology.
+                    </p>
+                </div>
+
+                <script>
+                    (function() {
+                        const canvas = document.getElementById('neural-canvas');
+                        const ctx = canvas.getContext('2d');
+                        let width, height;
+                        let particles = [];
+                        
+                        // Configuration
+                        const particleCount = 40;
+                        const connectionDistance = 80;
+                        const mouseDistance = 100;
+                        
+                        // Mouse Tracking
+                        let mouse = { x: null, y: null };
+                        const card = document.getElementById('about-card');
+
+                        card.addEventListener('mousemove', (e) => {
+                            const rect = card.getBoundingClientRect();
+                            mouse.x = e.clientX - rect.left;
+                            mouse.y = e.clientY - rect.top;
+                        });
+
+                        card.addEventListener('mouseleave', () => {
+                            mouse.x = null;
+                            mouse.y = null;
+                        });
+
+                        // Resize handling
+                        function resize() {
+                            width = canvas.width = card.clientWidth;
+                            height = canvas.height = card.clientHeight;
+                        }
+                        window.addEventListener('resize', resize);
+                        resize();
+
+                        // Particle Class
+                        class Particle {
+                            constructor() {
+                                this.x = Math.random() * width;
+                                this.y = Math.random() * height;
+                                this.vx = (Math.random() - 0.5) * 0.5; // Slow velocity
+                                this.vy = (Math.random() - 0.5) * 0.5;
+                                this.size = Math.random() * 1.5 + 0.5;
+                            }
+
+                            update() {
+                                this.x += this.vx;
+                                this.y += this.vy;
+
+                                // Bounce off walls
+                                if (this.x < 0 || this.x > width) this.vx *= -1;
+                                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                                // Mouse Interaction (Repel)
+                                if (mouse.x != null) {
+                                    let dx = mouse.x - this.x;
+                                    let dy = mouse.y - this.y;
+                                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                                    if (distance < mouseDistance) {
+                                        const forceDirectionX = dx / distance;
+                                        const forceDirectionY = dy / distance;
+                                        const force = (mouseDistance - distance) / mouseDistance;
+                                        const directionX = forceDirectionX * force * 1.5; // Push strength
+                                        const directionY = forceDirectionY * force * 1.5;
+
+                                        this.x -= directionX;
+                                        this.y -= directionY;
+                                    }
+                                }
+                            }
+
+                            draw() {
+                                ctx.beginPath();
+                                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                                ctx.fillStyle = '#10b981'; // Emerald
+                                ctx.fill();
+                            }
+                        }
+
+                        // Init Particles
+                        for (let i = 0; i < particleCount; i++) {
+                            particles.push(new Particle());
+                        }
+
+                        // Animation Loop
+                        function animate() {
+                            ctx.clearRect(0, 0, width, height);
+                            
+                            // Update and Draw Particles
+                            for (let i = 0; i < particles.length; i++) {
+                                particles[i].update();
+                                particles[i].draw();
+
+                                // Draw Connections
+                                for (let j = i; j < particles.length; j++) {
+                                    const dx = particles[i].x - particles[j].x;
+                                    const dy = particles[i].y - particles[j].y;
+                                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                                    if (distance < connectionDistance) {
+                                        ctx.beginPath();
+                                        ctx.strokeStyle = `rgba(16, 185, 129, ${1 - distance / connectionDistance})`; // Fade out
+                                        ctx.lineWidth = 0.5;
+                                        ctx.moveTo(particles[i].x, particles[i].y);
+                                        ctx.lineTo(particles[j].x, particles[j].y);
+                                        ctx.stroke();
+                                    }
+                                }
+                            }
+                            requestAnimationFrame(animate);
+                        }
+                        animate();
+                    })();
+                </script>
             </div>
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 row-span-1 sm:row-span-2 md:row-span-2 flex flex-col hover:border-textMuted transition-colors min-h-[220px] md:min-h-0">
@@ -710,24 +841,25 @@
     
                 <div onclick="closeModal()" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
 
-                <div id="modal-card" class="relative w-full max-w-md bg-[#111111] border border-[#333] rounded-xl shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden">
+                <div id="modal-card" class="relative w-full max-w-md max-h-[85vh] flex flex-col bg-card border border-border rounded-xl shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden">
                     
-                    <div class="h-8 bg-[#1a1a1a] border-b border-[#333] flex items-center justify-between px-3">
+                    <div class="h-8 flex-none bg-pill border-b border-border flex items-center justify-between px-3">
                         <div class="flex gap-1.5">
                             <button onclick="closeModal()" class="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition-colors"></button>
                             <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                             <div class="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
                         <span class="text-[10px] text-textMuted font-mono uppercase tracking-widest">Project_Details.exe</span>
-                        <div class="w-3"></div> </div>
+                        <div class="w-3"></div>
+                    </div>
 
-                    <div class="p-6">
+                    <div class="p-6 overflow-y-auto custom-scroll">
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <h2 id="modal-title" class="text-xl text-textMain font-medium mb-1">Project Name</h2>
                                 <p id="modal-subtitle" class="text-xs text-emerald-500 font-mono">Python • AI • Automation</p>
                             </div>
-                            <div id="modal-icon" class="w-10 h-10 bg-pill rounded-full flex items-center justify-center border border-border text-textMuted">
+                            <div id="modal-icon" class="w-10 h-10 bg-pill rounded-full flex-none flex items-center justify-center border border-border text-textMuted">
                                 </div>
                         </div>
 
@@ -735,11 +867,12 @@
                             Description goes here...
                         </p>
 
-                        <div class="flex gap-3">
+                        <div class="flex gap-3 mt-auto">
                             <a id="modal-github" href="#" target="_blank" class="flex-1 flex justify-center items-center gap-2 bg-textMain text-bg py-2 rounded-md text-xs font-medium hover:opacity-90 transition-opacity">
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                                 View Code
                             </a>
+                            
                             <button onclick="closeModal()" class="px-4 py-2 bg-pill border border-border text-textMuted rounded-md text-xs hover:text-textMain hover:border-textMuted transition-colors">
                                 Close
                             </button>
@@ -749,7 +882,8 @@
             </div>
             <div class="bg-card border border-border rounded-2xl col-span-1 sm:col-span-2 relative overflow-hidden group hover:border-textMuted transition-colors min-h-[200px] md:min-h-0 select-none">
             <script>
-                // 1. PROJECT DATA STORE (Now with Icons!)
+                // --- 1. DATA STORES ---
+
                 const projects = {
                     'sentinel': {
                         title: 'SentinelAI',
@@ -788,235 +922,283 @@
                     }
                 };
 
-                // 2. MODAL LOGIC
+                const publications = {
+                    'glucocorticoid': {
+                        title: 'Reduction in oral glucocorticoid use',
+                        subtitle: 'J. Neuro Sci • Aug 2025 • Data Analytics',
+                        desc: 'A Real-World Data (RWD) and Health Economics Outcomes Research (HEOR) study. I provided data analytics support to quantify the significant reduction in steroid dependency and improvement in daily living scores for patients treated with Efgartigimod.',
+                        link: 'https://www.sciencedirect.com/science/article/pii/S0022510X25002722?via%3Dihub#:~:text=Data%20analytics%20support%20was%20provided%20by%20Sam%20Selvaraj%20(ZS%20Associates).',
+                        badge: 'JNS'
+                    },
+                    'gans': {
+                        title: 'Performance analysis of GANs',
+                        subtitle: 'IEEE • May 2025 • Computer Vision',
+                        desc: 'Addressed the critical issue of data scarcity in medical imaging. We implemented and compared Conditional GANs and CycleGANs to generate high-fidelity synthetic histopathology images, significantly boosting the accuracy of downstream diagnostic classifiers.',
+                        link: 'https://ieeexplore.ieee.org/document/10985467',
+                        badge: 'IEEE'
+                    },
+                    'selfdriving': {
+                        title: 'Integrated System for Self-Driving Cars',
+                        subtitle: 'IRJET • Aug 2024 • Embedded Systems',
+                        desc: 'Developed a resource-efficient computer vision system for autonomous vehicles. The proposed architecture utilizes lightweight parallel processing to perform simultaneous lane detection, pothole identification, and object recognition on edge devices.',
+                        link: 'https://www.irjet.net/archives/V11/i8/IRJET-V11I854.pdf',
+                        badge: 'IRJET'
+                    }
+                };
+
+                // --- 2. MODAL LOGIC ---
                 const modal = document.getElementById('project-modal');
                 const modalCard = document.getElementById('modal-card');
+                const modalTitle = document.getElementById('modal-title');
+                const modalSubtitle = document.getElementById('modal-subtitle');
+                const modalDesc = document.getElementById('modal-desc');
+                const modalLink = document.getElementById('modal-github');
+                const modalIcon = document.getElementById('modal-icon');
 
+                // Open Project (Standard Icon + "View Code")
                 window.openProject = function(id) {
                     const p = projects[id];
                     if(!p) return;
 
-                    // Populate Data
-                    document.getElementById('modal-title').innerText = p.title;
-                    document.getElementById('modal-subtitle').innerText = p.subtitle;
-                    document.getElementById('modal-desc').innerText = p.desc;
-                    document.getElementById('modal-github').href = p.link;
+                    modalTitle.innerText = p.title;
+                    modalSubtitle.innerText = p.subtitle;
+                    modalDesc.innerText = p.desc;
+                    modalLink.href = p.link;
+                    modalLink.innerHTML = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> View Code`;
                     
-                    // This line injects the SVG icon into that circle!
-                    document.getElementById('modal-icon').innerHTML = p.icon;
+                    modalIcon.innerHTML = p.icon; // SVG Icon
+                    
+                    animateModalIn();
+                }
 
-                    // Animate In
+                // Open Publication (Text Badge + "View Paper")
+                window.openPublication = function(id) {
+                    const p = publications[id];
+                    if(!p) return;
+
+                    modalTitle.innerText = p.title;
+                    modalSubtitle.innerText = p.subtitle;
+                    modalDesc.innerText = p.desc;
+                    modalLink.href = p.link;
+                    modalLink.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> View Paper`;
+
+                    // Text Badge instead of Icon
+                    modalIcon.innerHTML = `<span class="font-bold text-[10px] tracking-widest text-emerald-500">${p.badge}</span>`;
+
+                    animateModalIn();
+                }
+
+                function animateModalIn() {
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modalCard.classList.remove('scale-95');
                     modalCard.classList.add('scale-100');
                 }
 
                 window.closeModal = function() {
-                    // Animate Out
                     modal.classList.add('opacity-0', 'pointer-events-none');
                     modalCard.classList.remove('scale-100');
                     modalCard.classList.add('scale-95');
                 }
 
-                // Close on Escape key
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') closeModal();
                 });
             </script>
-    <style>
-        /* Default (Dark Mode) - Glassy/Cyberpunk */
-        .piano-key-white {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .piano-key-black {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            width: 4%; /* Thinner black keys for 2 octaves */
-        }
 
-        /* Light Mode Override */
-        body.light-mode .piano-key-white {
-            background-color: #ffffff;
-            border: 1px solid #d1d5db;
-        }
-        body.light-mode .white-key-active {
-            background-color: #f3f4f6;
-        }
-        body.light-mode .piano-key-black {
-            background-color: #171717;
-            border: 1px solid #000;
-        }
-    </style>
-
-    <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
-         <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹 (Type to Play)</span>
-
-         <div class="flex gap-2 pointer-events-auto">
-             <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
-                ▶ Stranger Things
-             </button>
-             <button onclick="playMelody('mario')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
-                ▶ Mario
-             </button>
-         </div>
-    </div>
-
-    <div class="absolute inset-0 pt-12 px-2 pb-4 flex items-end justify-center">
-        <div id="piano-container" class="relative w-full h-full max-h-[120px] flex">
-            </div>
-    </div>
-
-    <script>
-        // 1. Audio Context
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        // 2-Octave Frequency Map (C4 to C6)
-        const notes = {
-            'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
-            'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
-            'A#4': 466.16, 'B4': 493.88,
-            'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25,
-            'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00,
-            'A#5': 932.33, 'B5': 987.77,
-            'C6': 1046.50
-        };
-
-        // Keyboard Mapping (FL Studio Style)
-        // Bottom Row: Z -> M (Lower Octave)
-        // Top Row: Q -> I (Upper Octave)
-        const keyMap = {
-            // Lower Octave (C4-B4)
-            'z': 'C4', 's': 'C#4', 'x': 'D4', 'd': 'D#4', 'c': 'E4', 'v': 'F4',
-            'g': 'F#4', 'b': 'G4', 'h': 'G#4', 'n': 'A4', 'j': 'A#4', 'm': 'B4',
-            // Upper Octave (C5-C6)
-            'q': 'C5', '2': 'C#5', 'w': 'D5', '3': 'D#5', 'e': 'E5', 'r': 'F5',
-            '5': 'F#5', 't': 'G5', '6': 'G#5', 'y': 'A5', '7': 'A#5', 'u': 'B5',
-            'i': 'C6'
-        };
-
-        const keysData = [
-            { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' },
-            { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
-            { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
-            { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
-            { note: 'G#4', type: 'black', left: '31%' }, { note: 'A4', type: 'white' },
-            { note: 'A#4', type: 'black', left: '38%' }, { note: 'B4', type: 'white' },
-            { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black', left: '51%' },
-            { note: 'D5', type: 'white' }, { note: 'D#5', type: 'black', left: '58%' },
-            { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },
-            { note: 'F#5', type: 'black', left: '71.5%' }, { note: 'G5', type: 'white' },
-            { note: 'G#5', type: 'black', left: '78%' }, { note: 'A5', type: 'white' },
-            { note: 'A#5', type: 'black', left: '85%' }, { note: 'B5', type: 'white' },
-            { note: 'C6', type: 'white' }
-        ];
-
-        // 2. Sound Logic
-        function playTone(freq) {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            osc.type = 'sine'; // Smooth synth
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-            osc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.5);
-        }
-
-        // 3. Render Keys
-        const container = document.getElementById('piano-container');
-        const keyElements = {};
-
-        keysData.forEach((key) => {
-            const div = document.createElement('div');
-            const isBlack = key.type === 'black';
-
-            let layoutClasses = isBlack
-                ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black"
-                : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
-
-            div.className = layoutClasses;
-            if (isBlack) div.style.left = key.left;
-
-            const trigger = () => {
-                playTone(notes[key.note]);
-                animateKey(div, isBlack);
-            };
-            div.addEventListener('mousedown', trigger);
-            keyElements[key.note] = div;
-            container.appendChild(div);
-        });
-
-        // 4. Animation
-        function animateKey(element, isBlack) {
-            element.style.backgroundColor = '#10b981';
-            element.style.borderColor = '#10b981';
-            element.style.boxShadow = '0 0 15px rgba(16,185,129,0.5)';
-            if(!isBlack) element.style.transform = 'scale(0.98) translateY(2px)';
-
-            setTimeout(() => {
-                element.style.backgroundColor = '';
-                element.style.borderColor = '';
-                element.style.boxShadow = '';
-                if(!isBlack) element.style.transform = '';
-            }, 200);
-        }
-
-        // 5. Melodies
-        window.playMelody = function(type) {
-            let sequence = [];
-            let speed = 200;
-
-            if (type === 'stranger') {
-                // Stranger Things
-                sequence = ['C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4','C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'];
-                speed = 160;
-            } else if (type === 'mario') {
-                // Mario Theme
-                sequence = [
-                    'E5', 'E5', null, 'E5', null, 'C5', 'E5', null, 'G5', null, null, null, 'G4', null, null, null,
-                    'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
-                    null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
-                    null, 'E5', null, 'C5', 'D5', 'B4', null, null,
-                    'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
-                    null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
-                    null, 'E5', null, 'C5', 'D5', 'B4', null, null
-                ];
-                speed = 140;
-            }
-
-            sequence.forEach((note, i) => {
-                setTimeout(() => {
-                    if (note && keyElements[note]) {
-                        playTone(notes[note]);
-                        animateKey(keyElements[note], note.includes('#'));
-                    }
-                }, i * speed);
-            });
-        };
-
-        // 6. Keyboard Interaction Listener
-        document.addEventListener('keydown', (e) => {
-            // Ignore if user is typing in an input field (e.g. contact form)
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.repeat) return; // Prevent rapid firing when key held
-
-            const key = e.key.toLowerCase();
-            if (keyMap[key]) {
-                const noteName = keyMap[key];
-                if (keyElements[noteName]) {
-                    playTone(notes[noteName]);
-                    // Check if black key for correct visual animation
-                    const isBlack = noteName.includes('#');
-                    animateKey(keyElements[noteName], isBlack);
+            <style>
+                /* Default (Dark Mode) - Glassy/Cyberpunk */
+                .piano-key-white {
+                    background-color: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
                 }
-            }
-        });
-    </script>
+                .piano-key-black {
+                    background-color: #1a1a1a;
+                    border: 1px solid #333;
+                    width: 4%; /* Thinner black keys for 2 octaves */
+                }
+
+                /* Light Mode Override */
+                body.light-mode .piano-key-white {
+                    background-color: #ffffff;
+                    border: 1px solid #d1d5db;
+                }
+                body.light-mode .white-key-active {
+                    background-color: #f3f4f6;
+                }
+                body.light-mode .piano-key-black {
+                    background-color: #171717;
+                    border: 1px solid #000;
+                }
+            </style>
+
+            <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
+                <span class="text-[9px] text-textMuted uppercase tracking-widest font-medium">Synth 🎹 (Type to Play)</span>
+
+                <div class="flex gap-2 pointer-events-auto">
+                    <button onclick="playMelody('stranger')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                        ▶ Stranger Things
+                    </button>
+                    <button onclick="playMelody('mario')" class="px-2 py-1 bg-pill border border-border rounded text-[9px] text-textMuted hover:text-textMain hover:border-emerald-500 transition-colors">
+                        ▶ Mario
+                    </button>
+                </div>
+            </div>
+
+            <div class="absolute inset-0 pt-12 px-2 pb-4 flex items-end justify-center">
+                <div id="piano-container" class="relative w-full h-full max-h-[120px] flex">
+                    </div>
+            </div>
+
+            <script>
+                // 1. Audio Context
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+                // 2-Octave Frequency Map (C4 to C6)
+                const notes = {
+                    'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+                    'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+                    'A#4': 466.16, 'B4': 493.88,
+                    'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25,
+                    'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00,
+                    'A#5': 932.33, 'B5': 987.77,
+                    'C6': 1046.50
+                };
+
+                // Keyboard Mapping (FL Studio Style)
+                // Bottom Row: Z -> M (Lower Octave)
+                // Top Row: Q -> I (Upper Octave)
+                const keyMap = {
+                    // Lower Octave (C4-B4)
+                    'z': 'C4', 's': 'C#4', 'x': 'D4', 'd': 'D#4', 'c': 'E4', 'v': 'F4',
+                    'g': 'F#4', 'b': 'G4', 'h': 'G#4', 'n': 'A4', 'j': 'A#4', 'm': 'B4',
+                    // Upper Octave (C5-C6)
+                    'q': 'C5', '2': 'C#5', 'w': 'D5', '3': 'D#5', 'e': 'E5', 'r': 'F5',
+                    '5': 'F#5', 't': 'G5', '6': 'G#5', 'y': 'A5', '7': 'A#5', 'u': 'B5',
+                    'i': 'C6'
+                };
+
+                const keysData = [
+                    { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black', left: '4.5%' },
+                    { note: 'D4', type: 'white' }, { note: 'D#4', type: 'black', left: '11%' },
+                    { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },
+                    { note: 'F#4', type: 'black', left: '24.5%' }, { note: 'G4', type: 'white' },
+                    { note: 'G#4', type: 'black', left: '31%' }, { note: 'A4', type: 'white' },
+                    { note: 'A#4', type: 'black', left: '38%' }, { note: 'B4', type: 'white' },
+                    { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black', left: '51%' },
+                    { note: 'D5', type: 'white' }, { note: 'D#5', type: 'black', left: '58%' },
+                    { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },
+                    { note: 'F#5', type: 'black', left: '71.5%' }, { note: 'G5', type: 'white' },
+                    { note: 'G#5', type: 'black', left: '78%' }, { note: 'A5', type: 'white' },
+                    { note: 'A#5', type: 'black', left: '85%' }, { note: 'B5', type: 'white' },
+                    { note: 'C6', type: 'white' }
+                ];
+
+                // 2. Sound Logic
+                function playTone(freq) {
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
+                    const osc = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    osc.type = 'sine'; // Smooth synth
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                    osc.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.5);
+                }
+
+                // 3. Render Keys
+                const container = document.getElementById('piano-container');
+                const keyElements = {};
+
+                keysData.forEach((key) => {
+                    const div = document.createElement('div');
+                    const isBlack = key.type === 'black';
+
+                    let layoutClasses = isBlack
+                        ? "absolute h-[60%] z-10 rounded-b-sm cursor-pointer transition-all duration-100 shadow-sm piano-key-black"
+                        : "relative h-full flex-1 rounded-b-md mx-[1px] cursor-pointer transition-all duration-100 active:scale-[0.98] origin-top shadow-sm piano-key-white";
+
+                    div.className = layoutClasses;
+                    if (isBlack) div.style.left = key.left;
+
+                    const trigger = () => {
+                        playTone(notes[key.note]);
+                        animateKey(div, isBlack);
+                    };
+                    div.addEventListener('mousedown', trigger);
+                    keyElements[key.note] = div;
+                    container.appendChild(div);
+                });
+
+                // 4. Animation
+                function animateKey(element, isBlack) {
+                    element.style.backgroundColor = '#10b981';
+                    element.style.borderColor = '#10b981';
+                    element.style.boxShadow = '0 0 15px rgba(16,185,129,0.5)';
+                    if(!isBlack) element.style.transform = 'scale(0.98) translateY(2px)';
+
+                    setTimeout(() => {
+                        element.style.backgroundColor = '';
+                        element.style.borderColor = '';
+                        element.style.boxShadow = '';
+                        if(!isBlack) element.style.transform = '';
+                    }, 200);
+                }
+
+                // 5. Melodies
+                window.playMelody = function(type) {
+                    let sequence = [];
+                    let speed = 200;
+
+                    if (type === 'stranger') {
+                        // Stranger Things
+                        sequence = ['C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4','C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4', 'C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'];
+                        speed = 160;
+                    } else if (type === 'mario') {
+                        // Mario Theme
+                        sequence = [
+                            'E5', 'E5', null, 'E5', null, 'C5', 'E5', null, 'G5', null, null, null, 'G4', null, null, null,
+                            'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                            null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                            null, 'E5', null, 'C5', 'D5', 'B4', null, null,
+                            'C5', null, null, 'G4', null, null, 'E4', null, null, 'A4', null, 'B4', null, 'A#4', 'A4',
+                            null, 'G4', 'E5', 'G5', 'A5', null, 'F5', 'G5',
+                            null, 'E5', null, 'C5', 'D5', 'B4', null, null
+                        ];
+                        speed = 140;
+                    }
+
+                    sequence.forEach((note, i) => {
+                        setTimeout(() => {
+                            if (note && keyElements[note]) {
+                                playTone(notes[note]);
+                                animateKey(keyElements[note], note.includes('#'));
+                            }
+                        }, i * speed);
+                    });
+                };
+
+                // 6. Keyboard Interaction Listener
+                document.addEventListener('keydown', (e) => {
+                    // Ignore if user is typing in an input field (e.g. contact form)
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    if (e.repeat) return; // Prevent rapid firing when key held
+
+                    const key = e.key.toLowerCase();
+                    if (keyMap[key]) {
+                        const noteName = keyMap[key];
+                        if (keyElements[noteName]) {
+                            playTone(notes[noteName]);
+                            // Check if black key for correct visual animation
+                            const isBlack = noteName.includes('#');
+                            animateKey(keyElements[noteName], isBlack);
+                        }
+                    }
+                });
+            </script>
 </div>
 
             <div class="bg-card border border-border rounded-2xl p-5 md:p-4 flex flex-col min-h-[140px] md:min-h-0 hover:border-textMuted transition-colors">
@@ -1024,7 +1206,7 @@
 
                 <div class="flex-1 space-y-3 md:space-y-3 overflow-y-auto custom-scroll pr-1">
 
-                    <a href="https://www.sciencedirect.com/science/article/pii/S0022510X25002722?via%3Dihub#:~:text=Data%20analytics%20support%20was%20provided%20by%20Sam%20Selvaraj%20(ZS%20Associates)." target="_blank" class="group block">
+                    <div onclick="openPublication('glucocorticoid')" class="group block cursor-pointer">
                         <div class="flex justify-between items-baseline mb-0.5">
                             <span class="text-[9px] text-textMuted uppercase tracking-wide">Aug 2025</span>
                             <span class="text-[9px] text-textMuted text-right">J. Neuro Sci</span>
@@ -1033,11 +1215,11 @@
                             Reduction in oral glucocorticoid use after efgartigimod
                         </h4>
                         <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
-                            RWD-HEOR study demonstrating significant reduction in glucocorticoid use and improved daily living scores.
+                            RWD-HEOR study demonstrating significant reduction in glucocorticoid use...
                         </p>
-                    </a>
+                    </div>
 
-                    <a href="https://ieeexplore.ieee.org/document/10985467" target="_blank" class="group block">
+                    <div onclick="openPublication('gans')" class="group block cursor-pointer">
                         <div class="flex justify-between items-baseline mb-0.5">
                             <span class="text-[9px] text-textMuted uppercase tracking-wide">May 2025</span>
                             <span class="text-[9px] text-textMuted text-right">IEEE</span>
@@ -1046,11 +1228,11 @@
                             Performance analysis of GANs for synthetic histopathology
                         </h4>
                         <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
-                            Explores Conditional and Cyclic GANs for generating synthetic medical images to tackle data scarcity in cancer diagnosis.
+                            Explores Conditional and Cyclic GANs for generating synthetic medical images...
                         </p>
-                    </a>
+                    </div>
 
-                    <a href="https://www.irjet.net/archives/V11/i8/IRJET-V11I854.pdf" target="_blank" class="group block">
+                    <div onclick="openPublication('selfdriving')" class="group block cursor-pointer">
                         <div class="flex justify-between items-baseline mb-0.5">
                             <span class="text-[9px] text-textMuted uppercase tracking-wide">Aug 2024</span>
                             <span class="text-[9px] text-textMuted text-right">IRJET</span>
@@ -1059,9 +1241,9 @@
                             Integrated System for Self-Driving Cars
                         </h4>
                         <p class="text-[10px] md:text-[9px] text-textMuted opacity-70 mt-1 line-clamp-2 leading-relaxed">
-                            Proposed lightweight parallel processing methodology for lane, pothole, and object detection in autonomous vehicles.
+                            Proposed lightweight parallel processing methodology for lane detection...
                         </p>
-                    </a>
+                    </div>
 
                 </div>
             </div>
